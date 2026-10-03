@@ -1,0 +1,64 @@
+/* ------------------------------------------------------------------
+   SP Consulting Services — design tokens
+   Brand colours come from the logo: navy #003366 and steel #006699.
+   ------------------------------------------------------------------ */
+:root {
+  /* Brand */
+  --navy: #003366;
+  --navy-900: #00203f;
+  --steel: #006699;
+  --steel-700: #00557f;
+  --steel-300: #6fb3dd;
+
+  /* Neutrals (cool-toned) */
+  --ink: #0a1a2b;
+  --slate: #3e4f60;
+  --muted: #4a5a6b;
+  --paper: #f2f5f8;
+  --white: #ffffff;
+  --placeholder: #e3eaf0;
+  --line: #c9d4de;
+  --line-soft: #dce3ea;
+  --line-strong: #b8c6d3;
+
+  /* On dark grounds */
+  --on-dark: rgba(255, 255, 255, 0.8);
+  --on-dark-strong: rgba(255, 255, 255, 0.86);
+  --on-dark-muted: rgba(255, 255, 255, 0.7);
+  --on-dark-line: rgba(255, 255, 255, 0.16);
+  --on-dark-border: rgba(255, 255, 255, 0.4);
+
+  /* Type */
+  --font-display: 'Barlow Condensed', 'Arial Narrow', 'Roboto Condensed', sans-serif;
+  --font-body: 'IBM Plex Sans', 'Helvetica Neue', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Layout */
+  --container: 1312px;
+  --gutter: clamp(20px, 4.45vw, 64px);
+  --section-y: clamp(72px, 8.4vw, 120px);
+  --stack-gap: clamp(36px, 3.9vw, 56px);
+  --header-h: 88px;
+
+  /* Blueprint grid backgrounds */
+  --grid-dark:
+    linear-gradient(rgba(111, 179, 221, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 179, 221, 0.06) 1px, transparent 1px),
+    linear-gradient(rgba(111, 179, 221, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 179, 221, 0.11) 1px, transparent 1px);
+  --grid-light:
+    linear-gradient(rgba(0, 51, 102, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 51, 102, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(0, 51, 102, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 51, 102, 0.07) 1px, transparent 1px);
+  --grid-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --header-h: 72px;
+  }
+}

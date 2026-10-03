@@ -1,0 +1,765 @@
+/* ================= Hero ================= */
+.hero {
+  color: var(--white);
+}
+
+.heroMedia {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(600px, 50vw, 720px);
+  overflow: hidden;
+  background: var(--navy-900);
+}
+
+.heroImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Drawing gridlines above the title panel */
+.heroGrid {
+  position: relative;
+  flex-grow: 1;
+  min-height: 160px;
+  pointer-events: none;
+}
+
+.gridline {
+  position: absolute;
+  top: 52px;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed rgba(255, 255, 255, 0.45);
+}
+
+.bubble {
+  position: absolute;
+  top: -28px;
+  left: -14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(0, 32, 63, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1;
+  color: var(--white);
+}
+
+.heroPanel {
+  position: relative;
+  padding-block: 44px 60px;
+  background: rgba(0, 32, 63, 0.86);
+  border-top: 1px solid var(--on-dark-line);
+}
+
+.heroPanelInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--steel-300);
+  transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+  color: var(--white);
+}
+
+.crumbSep {
+  padding-inline: 12px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.heroTitle {
+  margin-top: 8px;
+  color: var(--white);
+}
+
+.heroMeta {
+  margin-top: 22px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.heroTags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-bottom: 2px;
+}
+
+.heroTag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.heroTagCode {
+  color: var(--steel-300);
+}
+
+/* ================= 01 Project data — drawing title block ================= */
+.dataSection {
+  padding-block: clamp(64px, 6.1vw, 88px);
+}
+
+.dataStack {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.titleBlock {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 1px;
+  background: var(--line-strong);
+  border: 2px solid var(--navy);
+}
+
+.tbLead {
+  background: var(--white);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.tbNo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tbCode {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(72px, 7.8vw, 112px);
+  line-height: 0.85;
+  color: var(--navy);
+}
+
+.tbStamp {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.tbStamp img {
+  width: 18px;
+  height: 45px;
+}
+
+.tbStampText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tbRev {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.tbGrid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: minmax(116px, auto);
+  gap: 1px;
+}
+
+.tbCell {
+  background: var(--white);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.tbWide {
+  grid-column: span 2;
+}
+
+.tbLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tbValue {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.tbAccent {
+  color: var(--steel);
+}
+
+/* ================= 02 Case study ================= */
+.headline {
+  max-width: 1040px;
+}
+
+.narrative {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--line);
+}
+
+.narrativeRow {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 64px;
+  padding: 40px 0;
+  border-top: 1px solid var(--line);
+}
+
+.narrativeHead {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.narrativeNum {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--steel);
+}
+
+.narrativeText {
+  max-width: 820px;
+  font-size: clamp(18px, 1.53vw, 22px);
+  line-height: 1.55;
+  color: var(--slate);
+  text-wrap: pretty;
+}
+
+/* ================= 03 Scope by discipline ================= */
+.scopeHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+}
+
+.scopeSummary {
+  padding-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.scopeGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  gap: 32px;
+  align-items: start;
+}
+
+.scopeCard {
+  padding: 32px;
+  border: 1px solid var(--on-dark-line);
+  background: rgba(0, 32, 63, 0.72);
+  display: flex;
+  flex-direction: column;
+}
+
+.scopeCode {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--steel-300);
+}
+
+.scopeRule {
+  flex-grow: 1;
+  height: 1px;
+  background: var(--on-dark-line);
+}
+
+.scopeTitle {
+  margin: 16px 0 28px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(30px, 2.4vw, 34px);
+  line-height: 1.05;
+  color: var(--white);
+}
+
+.scopeList {
+  display: flex;
+  flex-direction: column;
+}
+
+.scopeList li {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid var(--on-dark-line);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--on-dark-strong);
+}
+
+.scopeList li:last-child {
+  border-bottom: 1px solid var(--on-dark-line);
+}
+
+.scopeList span {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--steel-300);
+}
+
+/* ================= 04 Gallery ================= */
+.gallery {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  grid-template-rows: 288px 288px;
+  gap: 32px;
+}
+
+.galleryLead {
+  grid-row: span 2;
+}
+
+.gallerySingle {
+  grid-template-columns: 1fr;
+  grid-template-rows: clamp(320px, 42vw, 608px);
+}
+
+.gallerySingle .galleryLead {
+  grid-row: auto;
+}
+
+.galleryFigure {
+  height: 100%;
+}
+
+/* ================= 05 More work ================= */
+.moreHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.moreLabel {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.next {
+  display: grid;
+  grid-template-columns: minmax(0, 640px) minmax(0, 1fr);
+  min-height: 360px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  color: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.next:hover {
+  border-color: var(--steel);
+}
+
+.nextImage {
+  position: relative;
+  overflow: hidden;
+  min-height: 358px;
+  background: var(--navy-900);
+}
+
+.nextImage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease-out);
+}
+
+.next:hover .nextImage img {
+  transform: scale(1.04);
+}
+
+.nextTag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 10px 14px;
+  background: var(--navy-900);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--white);
+}
+
+.nextBody {
+  padding: 44px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  min-width: 0;
+}
+
+.nextText {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.nextEyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+
+.nextName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 0.95;
+  color: var(--navy);
+  text-wrap: balance;
+}
+
+.nextMeta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.nextFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.nextCta {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--steel);
+}
+
+.nextBtn {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  background: var(--steel);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.nextBtn svg {
+  transition: transform 0.25s var(--ease-out);
+}
+
+.next:hover .nextBtn {
+  background: var(--steel-700);
+}
+
+.next:hover .nextBtn svg {
+  transform: translateX(3px);
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 1199px) {
+  /* Discipline tags drop below the title so long project names keep the full width */
+  .heroPanelInner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .heroTags {
+    justify-content: flex-start;
+  }
+
+  /* Title block: project number becomes a header strip above a 4-column grid */
+  .titleBlock {
+    grid-template-columns: 1fr;
+  }
+
+  .tbLead {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .narrativeRow {
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 48px;
+  }
+
+  .next {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+
+  .nextBody {
+    padding: 36px 40px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .heroPanel {
+    padding-block: 32px 44px;
+  }
+
+  .tbGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(96px, auto);
+  }
+
+  .narrativeRow {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 32px 0;
+  }
+
+  .narrativeHead {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  /* Discipline cards: one per row, title on the left and bullets on the right */
+  .scopeGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .scopeCard {
+    display: grid;
+    grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 40px;
+  }
+
+  .scopeCode {
+    grid-column: 1;
+  }
+
+  .scopeTitle {
+    grid-column: 1;
+    margin-bottom: 0;
+  }
+
+  .scopeList {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: clamp(320px, 52vw, 480px) clamp(200px, 30vw, 280px);
+    gap: 20px;
+  }
+
+  .galleryLead {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .next {
+    grid-template-columns: 1fr;
+  }
+
+  .nextImage {
+    min-height: 0;
+    height: clamp(240px, 42vw, 360px);
+  }
+}
+
+@media (max-width: 767px) {
+  .heroMedia {
+    min-height: 600px;
+  }
+
+  .heroGrid {
+    min-height: 200px;
+  }
+
+  .gridline {
+    top: 48px;
+  }
+
+  .heroMeta {
+    margin-top: 16px;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .heroTag {
+    height: 32px;
+    padding: 0 10px;
+    gap: 8px;
+    font-size: 10px;
+  }
+
+  .dataStack {
+    gap: 28px;
+  }
+
+  .tbLead {
+    padding: 20px;
+  }
+
+  .tbCell {
+    padding: 16px 18px;
+  }
+
+  .tbValue {
+    font-size: 16px;
+  }
+
+  .scopeCard {
+    display: flex;
+    padding: 24px;
+  }
+
+  .scopeTitle {
+    margin: 14px 0 20px;
+  }
+
+  .gallery {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: 16px;
+  }
+
+  .galleryLead {
+    height: 300px;
+  }
+
+  .galleryItem {
+    height: 220px;
+  }
+
+  .nextBody {
+    padding: 24px;
+    gap: 28px;
+  }
+
+  .nextText {
+    gap: 12px;
+  }
+
+  .nextName {
+    font-size: 40px;
+  }
+
+  .nextBtn {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Small phones: the title block reads as a two-column spec table */
+@media (max-width: 479px) {
+  .tbLead {
+    gap: 16px;
+  }
+
+  .tbCode {
+    font-size: 64px;
+  }
+
+  .tbGrid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+
+  .tbCell {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    align-items: baseline;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .tbWide {
+    grid-column: auto;
+  }
+
+  .tbValue {
+    font-size: 15px;
+  }
+}

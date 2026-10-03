@@ -1,0 +1,712 @@
+/* ================= Hero ================= */
+.hero {
+  color: var(--white);
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 780px) 440px;
+  justify-content: space-between;
+  gap: clamp(48px, 5vw, 72px);
+  padding-top: 72px;
+  padding-bottom: 80px;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+}
+
+.heroTitle {
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+}
+
+.heroTitle span {
+  display: block;
+}
+
+.heroLead {
+  max-width: 600px;
+  color: var(--on-dark);
+}
+
+/* Drawing title block */
+.titleBlock {
+  margin: 0;
+  width: 100%;
+  max-width: 600px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-family: var(--font-mono);
+}
+
+.titleCell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.titleCell:first-child {
+  border-left: 0;
+}
+
+.titleCell dt {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.titleCell dd {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--white);
+}
+
+/* Framed figure */
+.heroFigure {
+  position: relative;
+  height: 640px;
+  margin-top: 0;
+}
+
+.heroImage {
+  height: 100%;
+}
+
+.overruns {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.overruns span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px dashed rgba(255, 255, 255, 0.45);
+}
+
+.overruns span:nth-child(1) {
+  left: 25%;
+}
+
+.overruns span:nth-child(2) {
+  left: 50%;
+}
+
+.overruns span:nth-child(3) {
+  left: 75%;
+}
+
+.row {
+  position: absolute;
+  left: -16px;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+}
+
+.rowBubble {
+  position: absolute;
+  left: -28px;
+  top: -14px;
+  color: var(--white);
+}
+
+.dimension {
+  position: absolute;
+  right: -40px;
+  top: 0;
+  bottom: 0;
+  width: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.dimension span:nth-child(1),
+.dimension span:nth-child(3) {
+  width: 13px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.dimension span:nth-child(2) {
+  width: 1px;
+  flex-grow: 1;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* ================= Shared ================= */
+.headRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+}
+
+/* ================= 01 Our story ================= */
+.story {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(40px, 6.7vw, 96px);
+}
+
+.storyHead {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.storyTitle {
+  font-size: clamp(40px, 4.7vw, 68px);
+  letter-spacing: -0.005em;
+}
+
+.callout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 0 4px 24px;
+  border-left: 2px solid var(--steel);
+}
+
+.calloutLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+
+.callout p {
+  font-size: clamp(17px, 1.32vw, 19px);
+  font-weight: 500;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.storyBody {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 8px;
+}
+
+.storyBody p {
+  font-size: clamp(17px, 1.32vw, 19px);
+  line-height: 1.65;
+  color: var(--slate);
+  text-wrap: pretty;
+}
+
+/* ================= 02 Principles ================= */
+.principles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.principle {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 40px 28px 44px;
+  border-left: 1px solid var(--line-soft);
+}
+
+.principle:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.principle:last-child {
+  padding-right: 0;
+}
+
+.principleNum {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.bigNum {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(72px, 6.7vw, 96px);
+  line-height: 0.85;
+  color: var(--steel);
+}
+
+.of {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.principleBody {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.principleTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.1;
+  color: var(--navy);
+}
+
+/* ================= 03 Leadership ================= */
+.leaders {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.leader {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Keep names, roles and bios on shared baselines across a row, even when a role wraps */
+@supports (grid-template-rows: subgrid) {
+  .leader {
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+    row-gap: 0;
+    align-content: start;
+  }
+}
+
+.portrait {
+  aspect-ratio: 304 / 360;
+}
+
+.leaderName {
+  margin-top: 24px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1;
+  color: var(--navy);
+}
+
+.leaderRole {
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+
+.leaderBio {
+  align-self: start;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--slate);
+}
+
+/* ================= 04 Credentials ================= */
+.credGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(40px, 4.45vw, 64px);
+}
+
+.credCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--on-dark-line);
+}
+
+.credHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.credLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--steel-300);
+}
+
+.credMeta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.codes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.codes li {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid rgba(111, 179, 221, 0.5);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.credText {
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  text-wrap: pretty;
+}
+
+.software {
+  display: flex;
+  flex-direction: column;
+  margin-top: -12px;
+}
+
+.software li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--on-dark-line);
+}
+
+.swName {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.swUse {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.memberships {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.credentials .membership {
+  height: 88px;
+  padding: 0 16px;
+  border-color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* ================= Studio band ================= */
+.studio {
+  background: var(--navy-900);
+}
+
+.studioFigure {
+  height: clamp(320px, 36.1vw, 520px);
+}
+
+/* Align the caption with the page container rather than the screen edge */
+.studioFigure figcaption {
+  left: max(var(--gutter), (100% - var(--container)) / 2);
+}
+
+/* ================= 05 Next step ================= */
+.cta {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.ctaTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(56px, 7.8vw, 112px);
+  line-height: 0.9;
+  letter-spacing: -0.005em;
+  color: var(--navy);
+  text-wrap: balance;
+}
+
+.ctaTitle span {
+  color: var(--steel);
+}
+
+.ctaRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 32px 64px;
+  align-items: end;
+}
+
+.ctaText {
+  max-width: 620px;
+  font-size: clamp(17px, 1.32vw, 19px);
+  line-height: 1.6;
+  color: var(--slate);
+  text-wrap: pretty;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 1199px) {
+  .heroInner {
+    grid-template-columns: minmax(0, 1fr) 380px;
+  }
+
+  .heroTitle {
+    font-size: clamp(56px, 8.4vw, 120px);
+  }
+
+  .heroFigure {
+    height: 560px;
+    align-self: center;
+  }
+
+  .principles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .principle:nth-child(2) {
+    padding-right: 0;
+  }
+
+  .principle:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .principle:nth-child(n + 3) {
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .credGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .credCodes {
+    grid-column: 1 / -1;
+  }
+
+  .ctaRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1023px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    gap: 64px;
+    padding-top: 56px;
+    padding-bottom: 72px;
+  }
+
+  .heroTitle {
+    font-size: clamp(56px, 11vw, 112px);
+  }
+
+  .heroFigure {
+    height: 520px;
+    margin-top: 44px;
+    margin-left: 44px;
+  }
+
+  .dimension {
+    display: none;
+  }
+
+  .story {
+    grid-template-columns: 1fr;
+  }
+
+  .leaders {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 48px;
+  }
+
+  .portrait {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 767px) {
+  .heroText {
+    gap: 24px;
+  }
+
+  .heroFigure {
+    height: 420px;
+    margin-top: 40px;
+    margin-left: 36px;
+  }
+
+  .row {
+    left: -12px;
+  }
+
+  .rowBubble {
+    left: -26px;
+    transform: scale(0.86);
+  }
+
+  .overruns {
+    top: -12px;
+    height: 12px;
+  }
+
+  .storyHead {
+    gap: 28px;
+  }
+
+  .callout {
+    padding-left: 20px;
+  }
+
+  .principles {
+    grid-template-columns: 1fr;
+  }
+
+  .principle,
+  .principle:nth-child(n) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 28px 0 32px;
+    border-left: 0;
+  }
+
+  .principle:nth-child(n + 2) {
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .principleNum {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 64px;
+    flex-shrink: 0;
+  }
+
+  .bigNum {
+    font-size: 56px;
+  }
+
+  .principleBody {
+    gap: 10px;
+    padding-top: 2px;
+  }
+
+  .principleTitle {
+    font-size: 26px;
+  }
+
+  .leaders {
+    gap: 32px 16px;
+  }
+
+  .portrait {
+    aspect-ratio: 4 / 5;
+  }
+
+  .leaderName {
+    margin-top: 16px;
+    font-size: 26px;
+  }
+
+  .leaderRole {
+    margin-top: 8px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .leaderBio {
+    margin-top: 12px;
+    padding-top: 10px;
+    font-size: 14px;
+  }
+
+  .credGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .credentials .membership {
+    height: 72px;
+  }
+
+  .cta {
+    gap: 28px;
+  }
+
+  .ctaActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 479px) {
+  .heroTitle,
+  .ctaTitle {
+    font-size: min(56px, 14vw);
+  }
+
+  .titleBlock {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .titleCell {
+    padding: 12px 14px;
+  }
+
+  .titleCell:nth-child(3) {
+    grid-column: 1 / -1;
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+  }
+}

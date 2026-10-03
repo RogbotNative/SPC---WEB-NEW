@@ -1,0 +1,117 @@
+import { img } from '../assets'
+
+export type TopicId = 'structural' | 'mep' | 'site' | 'codes'
+
+export const topics: { id: TopicId; label: string }[] = [
+  { id: 'structural', label: 'Structural' },
+  { id: 'mep', label: 'MEP' },
+  { id: 'site', label: 'Site' },
+  { id: 'codes', label: 'Codes' },
+]
+
+export interface Article {
+  id: string
+  topic: TopicId
+  /** Sheet-code tag drawn on the image, e.g. "S-100". */
+  tag: string
+  title: string
+  excerpt: string
+  /** Keep the [placeholder] until the article is published. */
+  date: string
+  readTime: string
+  image: string
+  imageAlt: string
+  /** Figure caption (featured card only). */
+  caption?: string
+  /** Shown in the "Featured" slot at the top of the page. Not counted in the topic grid. */
+  featured?: boolean
+  /**
+   * Route of the full article once it exists (e.g. "/insights/floor-systems").
+   * Leave undefined while the article is unpublished: the card renders without a link
+   * and shows "Coming soon" instead of "Read article", so the page never ships a dead link.
+   */
+  to?: string
+}
+
+export const articles: Article[] = [
+  {
+    id: 'mep-before-structure-freeze',
+    topic: 'mep',
+    tag: 'M-200',
+    title: 'Why your MEP consultant should see the structure before it’s frozen',
+    excerpt:
+      'Beam depths, shafts and sleeves cost nothing to change on paper and a great deal in concrete. What to share, and when.',
+    date: '[Date]',
+    readTime: '[0] min read',
+    image: img.hvacUnit,
+    imageAlt: 'HVAC unit suspended from a steel roof structure',
+    caption: 'Fig. 01 — Services under a roof structure',
+    featured: true,
+  },
+  {
+    id: 'choosing-a-floor-system',
+    topic: 'structural',
+    tag: 'S-100',
+    title: 'Flat slab, PT or beam-slab: choosing a floor system',
+    excerpt: 'Span, depth, speed and services, compared.',
+    date: '[Date]',
+    readTime: '[0] min read',
+    image: img.concreteFrame,
+    imageAlt: 'Bare reinforced concrete frame under construction',
+  },
+  {
+    id: 'seismic-detailing',
+    topic: 'codes',
+    tag: 'IS 13920',
+    title: 'Seismic detailing your structural drawings should show',
+    excerpt: 'Ductile detailing to IS 13920, sheet by sheet.',
+    date: '[Date]',
+    readTime: '[0] min read',
+    image: img.rebarColumns,
+    imageAlt: 'Column reinforcement cages with workers on site',
+  },
+  {
+    id: 'sizing-shafts-early',
+    topic: 'mep',
+    tag: 'M-200',
+    title: 'Sizing shafts early: a checklist for architects',
+    excerpt: 'What to fix before the floor plates freeze.',
+    date: '[Date]',
+    readTime: '[0] min read',
+    image: img.plantRoom,
+    imageAlt: 'Plant room with pumps and stainless steel pipework',
+  },
+  {
+    id: 'structural-audit-report',
+    topic: 'structural',
+    tag: 'S-100',
+    title: 'What a structural audit report should tell you',
+    excerpt: 'Scope, tests and the recommendations to expect.',
+    date: '[Date]',
+    readTime: '[0] min read',
+    image: img.siteColumns,
+    imageAlt: 'Construction site with reinforced concrete columns and workers',
+  },
+  {
+    id: 'sprinklers-and-hydrants',
+    topic: 'mep',
+    tag: 'M-200',
+    title: 'Sprinklers, hydrants and what drives their layout',
+    excerpt: 'Hazard class, coverage and pipe routing.',
+    date: '[Date]',
+    readTime: '[0] min read',
+    image: img.fireCeiling,
+    imageAlt: 'Concrete ceiling with red fire sprinkler pipes and cable trays',
+  },
+  {
+    id: 'inspections-before-a-pour',
+    topic: 'site',
+    tag: 'C-300',
+    title: 'Five inspections that matter before a slab pour',
+    excerpt: 'Rebar, cover, shuttering, sleeves and levels.',
+    date: '[Date]',
+    readTime: '[0] min read',
+    image: img.aerialRebar,
+    imageAlt: 'Aerial view of reinforcement mats and workers on a slab',
+  },
+]

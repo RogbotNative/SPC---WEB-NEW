@@ -1,0 +1,25 @@
+.box {
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.solid {
+  background-color: var(--placeholder);
+  background-image:
+    linear-gradient(rgba(0, 51, 102, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 51, 102, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dashed {
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--line-strong);
+  text-align: center;
+}

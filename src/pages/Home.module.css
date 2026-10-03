@@ -1,0 +1,622 @@
+/* ================= Hero ================= */
+.hero {
+  color: var(--white);
+}
+
+.heroInner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(48px, 4vw, 64px);
+  padding-top: clamp(56px, 4.45vw, 64px);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+  gap: clamp(48px, 6vw, 96px);
+  align-items: center;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.heroTitle span {
+  display: block;
+}
+
+.heroLead {
+  max-width: 560px;
+  color: var(--on-dark);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.heroFigure {
+  height: 640px;
+  margin-top: 44px; /* room for gridline bubbles */
+}
+
+.stats {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--on-dark-line);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 28px 32px 56px;
+  border-left: 1px solid var(--on-dark-line);
+}
+
+.stat:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.statValue {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(44px, 3.9vw, 56px);
+  line-height: 1;
+  color: var(--white);
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
+}
+
+/* ================= Shared ================= */
+.headRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* ================= 01 Practice ================= */
+.practice {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(40px, 6.7vw, 96px);
+}
+
+.practiceTitle {
+  font-size: clamp(40px, 4.7vw, 68px);
+}
+
+.practiceBody {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding-top: 8px;
+}
+
+.practiceLead {
+  color: #3e4f60;
+  font-size: clamp(17px, 1.32vw, 19px);
+  line-height: 1.65;
+}
+
+.numbered {
+  display: flex;
+  flex-direction: column;
+}
+
+.numbered li {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.numbered li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.numbered span {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--steel);
+}
+
+/* ================= 02 Disciplines ================= */
+.disciplines {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.discipline {
+  display: flex;
+  flex-direction: column;
+}
+
+.disciplineFigure {
+  height: 300px;
+}
+
+.disciplineTitle {
+  margin-top: 28px;
+  margin-bottom: 14px;
+}
+
+.discipline > p {
+  flex-grow: 1;
+}
+
+.disciplineList {
+  margin-top: 24px;
+}
+
+.plus {
+  color: var(--steel);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.disciplineLink {
+  margin-top: 16px;
+  align-self: flex-start;
+}
+
+/* ================= 03 Coordination ================= */
+.coord {
+  display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(0, 1fr);
+  gap: clamp(48px, 6.1vw, 88px);
+  align-items: center;
+}
+
+.coordFigure {
+  height: 600px;
+}
+
+.coordText {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.coordLead {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.coordList {
+  display: flex;
+  flex-direction: column;
+}
+
+.coordList li {
+  display: flex;
+  gap: 20px;
+  padding: 16px 0;
+  border-top: 1px solid var(--on-dark-line);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.coordList li:last-child {
+  border-bottom: 1px solid var(--on-dark-line);
+}
+
+.coordList span {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--steel-300);
+}
+
+/* ================= 04 Selected work ================= */
+.work {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto auto;
+  gap: 32px;
+}
+
+.workCard {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+}
+
+.workFeatured {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.workImage {
+  overflow: hidden;
+  height: 300px;
+  background: var(--navy-900);
+}
+
+.workFeatured .workImage {
+  height: auto;
+  flex-grow: 1;
+  min-height: 560px;
+}
+
+.workImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease-out);
+}
+
+.workCard:hover .workImage img {
+  transform: scale(1.04);
+}
+
+.workCaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding-top: 16px;
+}
+
+.workCaption > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.workName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--navy);
+}
+
+.workFeatured .workName {
+  font-size: 32px;
+}
+
+.workCity {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.workCity svg {
+  color: var(--steel);
+  transition: transform 0.25s var(--ease-out);
+}
+
+.workCard:hover .workCity svg {
+  transform: translateX(3px);
+}
+
+/* ================= 05 Process ================= */
+.stages {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.stageHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stageNum {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--white);
+}
+
+.stageNumLast {
+  background: var(--steel);
+}
+
+.stageLine {
+  flex-grow: 1;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.stage:last-child .stageLine {
+  background: transparent;
+}
+
+.stageBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.stageBody .body {
+  font-size: 15px;
+}
+
+/* ================= 06 Clients ================= */
+.clients {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(48px, 6.7vw, 96px);
+  align-items: start;
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.quote blockquote {
+  position: relative;
+  padding-left: 56px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(30px, 2.8vw, 40px);
+  line-height: 1.12;
+  color: var(--navy);
+}
+
+.quoteMark {
+  position: absolute;
+  left: 0;
+  top: -14px;
+  font-size: 96px;
+  line-height: 1;
+  color: var(--steel);
+}
+
+.quote figcaption {
+  padding-left: 56px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+}
+
+.logos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.logo {
+  height: 96px;
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 1199px) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+  }
+
+  .heroFigure {
+    height: 560px;
+  }
+
+  .coord {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .coordFigure {
+    height: 520px;
+  }
+
+  .stages {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 48px;
+  }
+
+  .stage:nth-child(3) .stageLine {
+    background: transparent;
+  }
+}
+
+@media (max-width: 1023px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroFigure {
+    height: 520px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat {
+    padding: 24px 24px 32px;
+  }
+
+  .stat:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .stat:nth-child(n + 3) {
+    border-top: 1px solid var(--on-dark-line);
+  }
+
+  .practice,
+  .clients,
+  .coord {
+    grid-template-columns: 1fr;
+  }
+
+  .coordFigure {
+    height: 480px;
+  }
+
+  .work {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workFeatured {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .workFeatured .workImage {
+    min-height: 0;
+    height: 480px;
+    flex-grow: 0;
+  }
+}
+
+/* Phones: swipeable rows for disciplines and projects, vertical timeline for process */
+@media (max-width: 767px) {
+  .heroText {
+    gap: 28px;
+  }
+
+  .heroActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .heroFigure {
+    height: 420px;
+    margin-top: 40px;
+  }
+
+  .disciplines,
+  .work {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+
+  .discipline,
+  .workCard {
+    flex: 0 0 min(300px, 82vw);
+    scroll-snap-align: start;
+  }
+
+  .disciplineFigure {
+    height: 200px;
+  }
+
+  .workImage,
+  .workFeatured .workImage {
+    height: 220px;
+  }
+
+  .workName,
+  .workFeatured .workName {
+    font-size: 24px;
+  }
+
+  .workCaption {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .coordFigure {
+    height: 300px;
+  }
+
+  .stages {
+    grid-template-columns: 1fr;
+    row-gap: 0;
+  }
+
+  .stage {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .stageHead {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .stageNum {
+    width: 40px;
+    height: 40px;
+  }
+
+  .stageLine,
+  .stage:nth-child(3) .stageLine {
+    width: 1px;
+    height: auto;
+    flex-grow: 1;
+    min-height: 24px;
+    background: var(--line-strong);
+  }
+
+  .stage:last-child .stageLine {
+    background: transparent;
+  }
+
+  .stageBody {
+    gap: 10px;
+    padding: 8px 0 32px;
+  }
+
+  .quote blockquote {
+    padding-left: 40px;
+  }
+
+  .quoteMark {
+    font-size: 72px;
+    top: -8px;
+  }
+
+  .quote figcaption {
+    padding-left: 40px;
+  }
+
+  .logos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .logo {
+    height: 80px;
+  }
+}

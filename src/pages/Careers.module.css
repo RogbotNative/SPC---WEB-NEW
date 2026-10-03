@@ -1,0 +1,450 @@
+/* ================= Hero ================= */
+.hero {
+  color: var(--white);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 540px);
+  gap: clamp(48px, 6vw, 96px);
+  align-items: center;
+  padding-top: clamp(28px, 2.5vw, 36px);
+  padding-bottom: clamp(48px, 4.45vw, 64px);
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.heroTitle {
+  font-size: clamp(60px, 8.6vw, 124px);
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+}
+
+.heroTitle span {
+  display: block;
+}
+
+.heroLead {
+  max-width: 600px;
+  font-size: clamp(17px, 1.32vw, 19px);
+  line-height: 1.6;
+  color: var(--on-dark);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* ButtonLink wraps children in a span: lay the label and the down arrow out in a row. */
+.downBtn > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.downBtn:hover svg {
+  transform: translateY(3px);
+}
+
+.heroFigure {
+  height: 608px;
+  margin-top: 44px; /* room for the gridline bubbles */
+}
+
+/* ================= Shared ================= */
+.headRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 96px;
+}
+
+.headText {
+  max-width: 480px;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--slate);
+  text-wrap: pretty;
+}
+
+.headTextNarrow {
+  max-width: 420px;
+}
+
+/* ================= 01 Why SPC ================= */
+.why {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.whyItem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.whyNum {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--steel);
+}
+
+.whyTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 2.2vw, 32px);
+  line-height: 1.05;
+  color: var(--navy);
+}
+
+/* ================= 02 Open roles ================= */
+.rolesStack {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(36px, 3.3vw, 48px);
+}
+
+.rolesHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 48px;
+}
+
+.scheduleHead,
+.role {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) 220px 160px;
+  align-items: center;
+}
+
+.scheduleHead {
+  min-height: 44px;
+  border-bottom: 1px solid var(--navy);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.count {
+  justify-self: end;
+  white-space: nowrap;
+}
+
+.role {
+  min-height: 112px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ref {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--steel);
+}
+
+.roleMain {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding-right: 24px;
+}
+
+.roleTitle {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(26px, 2.2vw, 32px);
+  line-height: 1.05;
+  color: var(--navy);
+}
+
+.roleMeta {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.roleTagCell {
+  display: flex;
+}
+
+.roleTag {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--navy);
+}
+
+.apply {
+  justify-self: end;
+}
+
+.empty {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ================= 03 Hiring process ================= */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.stepHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stepNum {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--white);
+}
+
+.stepNumLast {
+  background: var(--steel);
+}
+
+.stepLine {
+  flex-grow: 1;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.step:last-child .stepLine {
+  background: transparent;
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.stepBody .body {
+  font-size: 15px;
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 1199px) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+  }
+
+  .heroFigure {
+    height: 560px;
+  }
+
+  .scheduleHead,
+  .role {
+    grid-template-columns: 80px minmax(0, 1fr) 180px 120px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroFigure {
+    height: 500px;
+  }
+
+  .scheduleHead,
+  .role {
+    grid-template-columns: 72px minmax(0, 1fr) 150px 104px;
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 48px;
+  }
+
+  .step:nth-child(2) .stepLine {
+    background: transparent;
+  }
+}
+
+/* Phones: roles schedule becomes stacked cards, hiring steps become a vertical timeline */
+@media (max-width: 767px) {
+  .heroText {
+    gap: 28px;
+  }
+
+  .heroActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .heroFigure {
+    height: 420px;
+    margin-top: 40px;
+  }
+
+  .why {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  /* Single-line column: a wrapping column would size its line (and the chip row) to the chips' full width */
+  .rolesHead {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  /* Chips become one swipeable row that bleeds to the screen edge (two classes beat FilterChips' own) */
+  .rolesHead .chipRow {
+    align-self: stretch;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: -6px calc(var(--gutter) * -1);
+    padding: 6px var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+
+  .rolesHead .chipRow::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rolesHead .chipRow > button {
+    flex-shrink: 0;
+  }
+
+  .scheduleHead {
+    display: flex;
+    min-height: 40px;
+  }
+
+  .scheduleHead > span {
+    display: none;
+  }
+
+  .count {
+    justify-self: auto;
+  }
+
+  .roleList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 16px;
+  }
+
+  .role {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'ref tag'
+      'main main'
+      'apply apply';
+    align-items: center;
+    gap: 14px 12px;
+    min-height: 0;
+    padding: 20px 20px 8px;
+    border: 1px solid var(--line-soft);
+    background: var(--white);
+  }
+
+  .ref {
+    grid-area: ref;
+  }
+
+  .roleTagCell {
+    grid-area: tag;
+  }
+
+  .roleMain {
+    grid-area: main;
+    padding-right: 0;
+  }
+
+  .roleTitle {
+    font-size: 26px;
+  }
+
+  .apply {
+    grid-area: apply;
+    justify-self: stretch;
+    justify-content: space-between;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    row-gap: 0;
+  }
+
+  .step {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .stepHead {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .stepNum {
+    width: 40px;
+    height: 40px;
+  }
+
+  .stepLine,
+  .step:nth-child(2) .stepLine {
+    width: 1px;
+    height: auto;
+    flex-grow: 1;
+    min-height: 24px;
+    background: var(--line-strong);
+  }
+
+  .step:last-child .stepLine {
+    background: transparent;
+  }
+
+  .stepBody {
+    gap: 10px;
+    padding: 8px 0 32px;
+  }
+}

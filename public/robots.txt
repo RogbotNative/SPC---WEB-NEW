@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Replace yourdomain.com with the live domain before launch
+Sitemap: https://www.yourdomain.com/sitemap.xml

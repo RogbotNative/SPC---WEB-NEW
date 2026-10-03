@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Replace yourdomain.com with the live domain before launch -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.yourdomain.com/</loc></url>
+  <url><loc>https://www.yourdomain.com/services</loc></url>
+  <url><loc>https://www.yourdomain.com/projects</loc></url>
+  <url><loc>https://www.yourdomain.com/projects/project-01</loc></url>
+  <url><loc>https://www.yourdomain.com/projects/project-02</loc></url>
+  <url><loc>https://www.yourdomain.com/projects/project-03</loc></url>
+  <url><loc>https://www.yourdomain.com/projects/project-04</loc></url>
+  <url><loc>https://www.yourdomain.com/projects/project-05</loc></url>
+  <url><loc>https://www.yourdomain.com/projects/project-06</loc></url>
+  <url><loc>https://www.yourdomain.com/projects/project-07</loc></url>
+  <url><loc>https://www.yourdomain.com/projects/project-08</loc></url>
+  <url><loc>https://www.yourdomain.com/projects/project-09</loc></url>
+  <url><loc>https://www.yourdomain.com/process</loc></url>
+  <url><loc>https://www.yourdomain.com/about</loc></url>
+  <url><loc>https://www.yourdomain.com/insights</loc></url>
+  <url><loc>https://www.yourdomain.com/careers</loc></url>
+  <url><loc>https://www.yourdomain.com/contact</loc></url>
+</urlset>
