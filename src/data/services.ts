@@ -1,228 +1,246 @@
 import { img } from '../assets'
 
+/* ------------------------------------------------------------------
+   Services — three categories (Audit, Construction, Design), each with its own services.
+   Category and service names follow SPC's previous website. The summaries and scope lines
+   are written for this design: check them with SPC before launch.
+   Images are stand-ins until SPC's own photos and BIM renders are added (see src/assets/index.ts).
+   ------------------------------------------------------------------ */
+
+export type ServiceCategoryId = 'audit' | 'construction' | 'design'
+
+/** One service, shown as a card on the Services page and listed on the home-page cards. */
+export interface Service {
+  /** Anchor on the Services page, e.g. /services#non-destructive-tests. */
+  id: string
+  /** Sheet code shown on the photo, e.g. "A-120". */
+  code: string
+  title: string
+  /** Shorter name for compact lists (home-page cards, contact form). */
+  shortTitle: string
+  summary: string
+  /** Three scope lines shown under the summary. */
+  items: string[]
+  image: string
+  imageAlt: string
+  /** CSS object-position for the photo crop, e.g. "center 30%". */
+  objectPosition?: string
+}
+
+export interface ServiceCategory {
+  id: ServiceCategoryId
+  code: string
+  title: string
+  /** One-sentence summary used on the home-page cards. */
+  summary: string
+  /** Scope line under the title in the Services hero sheet index. */
+  scope: string
+  /** Section heading on the Services page, one string per line. */
+  heading: [string, string]
+  intro: string
+  /** Enquiry link next to the section intro (Services page). */
+  cta: string
+  /** Link label on the home-page card. */
+  linkLabel: string
+  /** Photo on the home-page card. */
+  image: string
+  imageAlt: string
+  services: Service[]
+}
+
+export const serviceCategories: ServiceCategory[] = [
+  {
+    id: 'audit',
+    code: 'A-100',
+    title: 'Audit',
+    summary:
+      'Structural audits, stability certificates and non-destructive tests — an independent check on how an existing building is really performing.',
+    scope: 'Structural audit · Certification · NDT',
+    heading: ['Tested on site.', 'Certified on paper.'],
+    intro:
+      'Independent structural audits of existing buildings, backed by non-destructive tests on site — so decisions on repair, strengthening and certification rest on evidence, not guesswork.',
+    cta: 'Request an audit',
+    linkLabel: 'Explore audit',
+    image: img.siteEngineers,
+    imageAlt: 'Engineers in hard hats walking a construction site',
+    services: [
+      {
+        id: 'structural-audit',
+        code: 'A-110',
+        title: 'Structural audit & structural certification',
+        shortTitle: 'Structural audit & certification',
+        summary:
+          'A structured assessment of an existing building — visual inspection, testing and analysis — to establish its condition and safety, leading to a structural stability certificate and clear repair recommendations.',
+        items: [
+          'Visual inspection & condition survey',
+          'Structural stability certificate',
+          'Repair & strengthening recommendations',
+        ],
+        image: img.apartments,
+        imageAlt: 'Facade of an occupied concrete apartment block',
+        objectPosition: 'center 35%',
+      },
+      {
+        id: 'non-destructive-tests',
+        code: 'A-120',
+        title: 'Non-destructive tests',
+        shortTitle: 'Non-destructive tests',
+        summary:
+          'On-site tests that gauge the strength and quality of concrete and locate its reinforcement — without cutting into or damaging the structure.',
+        items: ['Rebound hammer test', 'Cover meter test', 'Ultrasonic pulse velocity test'],
+        image: img.concreteFrame,
+        imageAlt: 'Bare concrete columns and slabs of a building frame',
+        objectPosition: 'center 40%',
+      },
+    ],
+  },
+  {
+    id: 'construction',
+    code: 'C-200',
+    title: 'Construction',
+    summary:
+      'Public health and HVAC & mechanical engineering — sized from first principles and routed around the structure, not through it.',
+    scope: 'Public health · HVAC · Mechanical',
+    heading: ['Sized to the load.', 'Routed around the frame.'],
+    intro:
+      'Public health and HVAC & mechanical systems designed alongside the structure — so shafts, plant rooms and ceiling voids are sized for what has to fit in them.',
+    cta: 'Discuss a services scope',
+    linkLabel: 'Explore construction',
+    image: img.craneFrame,
+    imageAlt: 'Building frame under construction with tower cranes overhead',
+    services: [
+      {
+        id: 'public-health-engineering',
+        code: 'C-210',
+        title: 'Public health engineering',
+        shortTitle: 'Public health engineering',
+        summary:
+          'Water supply, drainage and treatment systems sized for how the building will be used, and routed in step with the structure.',
+        items: ['Water supply & storage', 'Drainage & rainwater systems', 'STP & WTP sizing'],
+        image: img.plantRoom,
+        imageAlt: 'Pump room with a motor and stainless-steel pipework',
+      },
+      {
+        id: 'hvac-mechanical-engineering',
+        code: 'C-220',
+        title: 'HVAC and mechanical engineering',
+        shortTitle: 'HVAC & mechanical',
+        summary:
+          'Air-conditioning and ventilation designed from heat-load calculations up, with ducts, plant and equipment coordinated with the frame.',
+        items: ['Heat load calculations', 'System selection & duct design', 'Car park & kitchen ventilation'],
+        image: img.hvacUnit,
+        imageAlt: 'Air-handling unit and ductwork suspended under a glazed roof',
+      },
+    ],
+  },
+  {
+    id: 'design',
+    code: 'D-300',
+    title: 'Design',
+    summary:
+      'Fire and life safety, electrical, and gas and utility systems — designed by our in-house design division and coordinated in one BIM model.',
+    scope: 'Fire · Electrical · Gas & utility · BIM',
+    heading: ['Designed together.', 'Coordinated in one model.'],
+    intro:
+      'Fire and life safety, electrical, and gas and utility systems from our design division, built into one BIM model — so services are coordinated with each other and with the frame before anything reaches site.',
+    cta: 'Discuss a design scope',
+    linkLabel: 'Explore design',
+    image: img.drafting,
+    imageAlt: 'Engineer marking up a drawing at a desk',
+    services: [
+      {
+        id: 'fire-life-safety',
+        code: 'D-310',
+        title: 'Fire and life safety system',
+        shortTitle: 'Fire & life safety',
+        summary:
+          'Detection, protection and life-safety systems laid out with the building — from sprinkler and hydrant networks to fire alarms and pump rooms.',
+        items: ['Sprinkler & hydrant systems', 'Fire alarm & detection', 'Pump room & tank sizing'],
+        image: img.fireCeiling,
+        imageAlt: 'Concrete soffit with red fire sprinkler mains and cable trays',
+      },
+      {
+        id: 'electrical-engineering',
+        code: 'D-320',
+        title: 'Electrical engineering',
+        shortTitle: 'Electrical engineering',
+        summary:
+          'Power, lighting and low-voltage systems, from load calculations and single-line diagrams to coordinated layouts.',
+        items: ['Load calculations & SLDs', 'Lighting & small power layouts', 'ELV: CCTV, access control & data'],
+        image: img.panelTesting,
+        imageAlt: 'Electrician testing breakers in a distribution panel',
+      },
+      {
+        id: 'gas-utility-distribution',
+        code: 'D-330',
+        title: 'Gas & utility distribution system',
+        shortTitle: 'Gas & utility distribution',
+        summary:
+          'Gas and utility piping networks, sized for demand and routed with the structure and the other services in mind.',
+        items: ['Gas piping & distribution', 'Utility piping networks', 'Pipe sizing & routing'],
+        image: img.officeServices,
+        imageAlt: 'Office floor with exposed pipes and ducts below the slab',
+      },
+      {
+        id: 'bim-modeling',
+        code: 'D-340',
+        title: 'BIM modeling',
+        shortTitle: 'BIM modeling',
+        summary:
+          'Building information models that bring the structure and every service into one coordinated 3D model — for clash detection, quantities and drawings.',
+        items: ['3D models of structure & services', 'Clash detection & coordination', 'Drawings & quantities from the model'],
+        image: img.drawingsDesk,
+        imageAlt: 'Engineer working on technical drawings at a desk, seen from above',
+      },
+      {
+        id: 'design-division',
+        code: 'D-350',
+        title: 'SP Consulting Services\u00a0– Design Division',
+        shortTitle: 'Design division',
+        summary:
+          'Our in-house design team — taking projects from concept to construction drawings, with every discipline coordinated in one place.',
+        items: ['Concept & scheme design', 'Multi-disciplinary coordination', 'Construction drawing sets'],
+        image: img.modernBuilding,
+        imageAlt: 'Contemporary building with an angular glass facade',
+      },
+    ],
+  },
+]
+
+/** Every service in page order — used for the contact form's "Services needed" options. */
+export const allServices: Service[] = serviceCategories.flatMap((c) => c.services)
+
+/* ------------------------------------------------------------------
+   Engineering disciplines on project case studies ("Scope by discipline" and the hero tags).
+   ------------------------------------------------------------------ */
+
 export type DisciplineId = 'structural' | 'mep' | 'supervision'
 
 export interface Discipline {
   id: DisciplineId
   code: string
   title: string
-  /** One-sentence summary used on cards (Home). */
-  summary: string
-  /** Four headline capabilities used on cards (Home). */
-  highlights: string[]
-  linkLabel: string
-  image: string
-  imageAlt: string
 }
 
 export const disciplines: Discipline[] = [
-  {
-    id: 'structural',
-    code: 'S-100',
-    title: 'Structural design',
-    summary:
-      'RCC, structural steel and post-tensioned systems — analysed for gravity, wind and seismic loads, and detailed for how they will actually be built.',
-    highlights: [
-      'Analysis & design',
-      'Foundations & soil coordination',
-      'Structural audits & retrofits',
-      'Proof checking & design vetting',
-    ],
-    linkLabel: 'Explore structural',
-    image: img.rebarColumns,
-    imageAlt: 'Reinforcement cages for concrete columns on site',
-  },
-  {
-    id: 'mep',
-    code: 'M-200',
-    title: 'MEP design',
-    summary:
-      'HVAC, electrical, plumbing and fire protection — sized from first principles and routed around the structure, not through it.',
-    highlights: [
-      'HVAC & ventilation',
-      'Electrical, lighting & ELV',
-      'Plumbing & public health',
-      'Fire detection & protection',
-    ],
-    linkLabel: 'Explore MEP',
-    image: img.fireCeiling,
-    imageAlt: 'Concrete ceiling with fire sprinkler pipes and cable trays',
-  },
-  {
-    id: 'supervision',
-    code: 'C-300',
-    title: 'Site supervision',
-    summary:
-      'Periodic or full-time supervision, so what is poured, fixed and commissioned matches what was designed.',
-    highlights: [
-      'Inspections & quality audits',
-      'Reinforcement & shuttering checks',
-      'Shop drawing & RFI review',
-      'Testing, commissioning & handover',
-    ],
-    linkLabel: 'Explore supervision',
-    image: img.siteEngineers,
-    imageAlt: 'Engineers in hard hats walking a construction site',
-  },
+  { id: 'structural', code: 'S-100', title: 'Structural design' },
+  { id: 'mep', code: 'M-200', title: 'MEP design' },
+  { id: 'supervision', code: 'C-300', title: 'Site supervision' },
 ]
 
 /** Codes the practice designs to (confirm with the client). */
 export const designCodes = ['IS 456', 'IS 800', 'IS 875', 'IS 1893', 'IS 13920', 'NBC 2016', 'ECBC 2017']
 
 /* ------------------------------------------------------------------
-   Services page — per-discipline detail, engagement options and FAQs.
+   Services page — engagement options and FAQs.
    Copy comes from the approved Services design; [bracketed] text is a placeholder.
    ------------------------------------------------------------------ */
-
-/** One row in a "What we do" / "What you receive" list. */
-export interface ServiceLine {
-  label: string
-  /** Optional right-aligned mono note, e.g. when it happens ("Before each pour"). */
-  note?: string
-}
-
-/** MEP sub-discipline (M-210 … M-240). */
-export interface MepSystem {
-  code: string
-  title: string
-  items: string[]
-}
-
-export interface DisciplineDetail {
-  id: DisciplineId
-  code: string
-  /** Section label next to the gridline bubble. */
-  label: string
-  /** Scope line under the title in the hero sheet index. */
-  scope: string
-  /** Section heading, one string per line. */
-  heading: [string, string]
-  intro: string
-  figure: { image: string; alt: string; caption: string; objectPosition?: string }
-  /** "What we do" list (structural, supervision). */
-  services?: ServiceLine[]
-  /** "What we do" sub-systems (MEP). */
-  systems?: MepSystem[]
-  /** "What you receive" list. */
-  deliverables: ServiceLine[]
-  /** Short coordination note shown under the deliverables. */
-  note?: string
-}
-
-export const mepSystems: MepSystem[] = [
-  {
-    code: 'M-210',
-    title: 'HVAC & ventilation',
-    items: ['Heat load calculations', 'System selection & duct design', 'Car park & kitchen ventilation'],
-  },
-  {
-    code: 'M-220',
-    title: 'Electrical, lighting & ELV',
-    items: ['Load calculations & SLDs', 'Lighting & small power layouts', 'ELV: CCTV, access control & data'],
-  },
-  {
-    code: 'M-230',
-    title: 'Plumbing & public health',
-    items: ['Water supply & storage', 'Drainage & rainwater systems', 'STP & WTP sizing'],
-  },
-  {
-    code: 'M-240',
-    title: 'Fire detection & protection',
-    items: ['Sprinkler & hydrant systems', 'Fire alarm & detection', 'Pump room & tank sizing'],
-  },
-]
-
-export const disciplineDetails: Record<DisciplineId, DisciplineDetail> = {
-  structural: {
-    id: 'structural',
-    code: 'S-100',
-    label: 'Structural design',
-    scope: 'RCC · Steel · Post-tensioned',
-    heading: ['Designed to stand.', 'Detailed to build.'],
-    intro:
-      'RCC, structural steel and post-tensioned frames, analysed for gravity, wind and seismic loads — sized for economy, detailed for the site, and checked against the Indian Standards before a sheet is issued.',
-    figure: {
-      image: img.rebarColumns,
-      alt: 'Reinforcement cages for concrete columns, with workers on site',
-      caption: 'Fig. 01 — Column reinforcement cages',
-    },
-    services: [
-      { label: 'RCC, structural steel & PT slabs' },
-      { label: 'Gravity, wind & seismic analysis' },
-      { label: 'Foundations & soil coordination' },
-      { label: 'Structural audits & retrofits' },
-      { label: 'Strengthening & rehabilitation' },
-      { label: 'Proof checking & design vetting' },
-    ],
-    deliverables: [
-      { label: 'Design basis report' },
-      { label: 'Analysis & design calculations' },
-      { label: 'GA & reinforcement drawings' },
-      { label: 'Bar bending schedules' },
-      { label: 'Structural BOQ' },
-    ],
-  },
-  mep: {
-    id: 'mep',
-    code: 'M-200',
-    label: 'MEP design',
-    scope: 'HVAC · Electrical · Plumbing · Fire',
-    heading: ['Sized to the load.', 'Routed around the frame.'],
-    intro:
-      'HVAC, electrical, plumbing and fire protection designed alongside the structure — so shafts, plant rooms and ceiling voids are sized for what has to fit in them.',
-    figure: {
-      image: img.fireCeiling,
-      alt: 'Concrete soffit with red fire sprinkler mains and cable trays',
-      caption: 'Fig. 02 — Fire mains and cable trays below slab',
-    },
-    systems: mepSystems,
-    deliverables: [
-      { label: 'Load calculations' },
-      { label: 'Single-line diagrams' },
-      { label: 'Schematics & riser diagrams' },
-      { label: 'Coordinated services layouts' },
-      { label: 'Equipment schedules' },
-      { label: 'Specifications & BOQ' },
-    ],
-    note: 'Coordinated with S-100: sleeves, cut-outs and shaft sizes are fixed on the structural drawings before they are issued.',
-  },
-  supervision: {
-    id: 'supervision',
-    code: 'C-300',
-    label: 'Site supervision',
-    scope: 'Inspection · QA · Commissioning · PMC',
-    heading: ['Built as drawn.', 'Checked at every stage.'],
-    intro:
-      'Periodic or full-time supervision by the engineers who designed the building. We inspect at every critical stage, so what is poured, fixed and commissioned matches what was drawn.',
-    figure: {
-      image: img.aerialRebar,
-      alt: 'Aerial view of reinforcement mats on a slab with workers',
-      caption: 'Fig. 03 — Reinforcement check before a pour',
-    },
-    services: [
-      { label: 'Periodic or full-time supervision', note: 'Per agreed scope' },
-      { label: 'Stage inspections & quality audits', note: 'Critical stages' },
-      { label: 'Reinforcement & shuttering checks', note: 'Before each pour' },
-      { label: 'Shop drawing & RFI review', note: 'Throughout' },
-      { label: 'Testing & commissioning', note: 'MEP systems' },
-      { label: 'Project management consultancy', note: 'Optional' },
-    ],
-    deliverables: [
-      { label: 'Stage inspection reports', note: 'Each stage' },
-      { label: 'Pour approvals', note: 'Each pour' },
-      { label: 'Non-conformance reports', note: 'As raised' },
-      { label: 'RFI log', note: 'Kept live' },
-      { label: 'Testing & commissioning records', note: 'Each system' },
-      { label: 'Handover dossier', note: 'At completion' },
-    ],
-  },
-}
 
 export interface EngagementOption {
   id: 'design' | 'design-supervision' | 'review'
   /** e.g. "Option A". */
   option: string
-  /** Sheets / scope covered, e.g. "S-100 · M-200". */
+  /** Sheets / scope covered, e.g. "C-200 · D-300". */
   scope: string
   title: string
   /** "Who it's for". */
@@ -237,7 +255,7 @@ export const engagementOptions: EngagementOption[] = [
   {
     id: 'design',
     option: 'Option A',
-    scope: 'S-100 · M-200',
+    scope: 'C-200 · D-300',
     title: 'Design',
     audience:
       'Developers and architects with a contractor or PMC already on site, who need a complete, coordinated drawing set.',
@@ -252,7 +270,7 @@ export const engagementOptions: EngagementOption[] = [
   {
     id: 'design-supervision',
     option: 'Option B',
-    scope: 'S-100 · M-200 · C-300',
+    scope: 'C-200 · D-300 · Site',
     title: 'Design + supervision',
     audience:
       'Owners who want one consultant accountable for the design and its execution, from first sketch to handover.',
@@ -268,14 +286,14 @@ export const engagementOptions: EngagementOption[] = [
   {
     id: 'review',
     option: 'Option C',
-    scope: 'Proof check · Audit',
+    scope: 'A-100 · Proof check',
     title: 'Review & audit',
     audience:
       'Owners, developers and apartment associations who need an independent check of a design or an existing building.',
     included: [
       'Proof checking & design vetting',
       'Structural audit of existing buildings',
-      'Testing coordination & condition reports',
+      'Non-destructive tests & condition reports',
       'Retrofit & strengthening design',
     ],
     cta: 'Request a review',

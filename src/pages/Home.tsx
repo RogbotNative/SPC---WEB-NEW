@@ -11,7 +11,7 @@ import { Seo } from '../components/ui/Seo'
 import { site } from '../config/site'
 import { stages } from '../data/process'
 import { projects } from '../data/projects'
-import { disciplines } from '../data/services'
+import { serviceCategories } from '../data/services'
 import s from './Home.module.css'
 
 const delay = (ms: number) => ({ '--reveal-delay': `${ms}ms` }) as CSSProperties
@@ -46,7 +46,7 @@ export default function Home() {
         <div className={`container ${s.heroInner}`}>
           <div className={s.heroGrid}>
             <div className={s.heroText}>
-              <SectionLabel num="A" label="Structural · MEP · Site supervision" tone="dark" rule={false} />
+              <SectionLabel num="A" label="Audit · Construction · Design" tone="dark" rule={false} />
               <h1 className={`display-xl ${s.heroTitle}`}>
                 <span>Engineered</span>
                 <span className="accent">to simplify.</span>
@@ -119,36 +119,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------------- 02 Disciplines ---------------- */}
+      {/* ---------------- 02 Services ---------------- */}
       <section className="section section--white">
         <div className="container stack">
-          <SectionLabel num="02" label="Disciplines" />
+          <SectionLabel num="02" label="Our services" />
           <div className={s.headRow}>
             <h2 className="h2">
-              Three disciplines.
+              Explore our range
               <br />
-              One set of drawings.
+              of services.
             </h2>
             <ButtonLink to="/services" variant="text" arrow>
               All services
             </ButtonLink>
           </div>
-          <div className={s.disciplines}>
-            {disciplines.map((d, i) => (
-              <article key={d.id} className={s.discipline} data-reveal style={delay(i * 110)}>
-                <Figure src={d.image} alt={d.imageAlt} tag={d.code} className={s.disciplineFigure} />
-                <h3 className={`h3 ${s.disciplineTitle}`}>{d.title}</h3>
-                <p className="body">{d.summary}</p>
-                <ul className={`hairlist ${s.disciplineList}`}>
-                  {d.highlights.map((h) => (
-                    <li key={h}>
-                      {h}
-                      <Plus size={14} className={s.plus} />
+          <div className={s.services}>
+            {serviceCategories.map((c, i) => (
+              <article key={c.id} className={s.service} data-reveal style={delay(i * 110)}>
+                <Figure src={c.image} alt={c.imageAlt} tag={c.code} className={s.serviceFigure} />
+                <h3 className={`h3 ${s.serviceTitle}`}>{c.title}</h3>
+                <p className="body">{c.summary}</p>
+                <ul className={`hairlist ${s.serviceList}`}>
+                  {c.services.map((item) => (
+                    <li key={item.id}>
+                      <Link to={`/services#${item.id}`} className={s.serviceItem}>
+                        {item.shortTitle}
+                        <Plus size={14} className={s.plus} />
+                      </Link>
                     </li>
                   ))}
                 </ul>
-                <ButtonLink to={`/services#${d.id}`} variant="text" arrow className={s.disciplineLink}>
-                  {d.linkLabel}
+                <ButtonLink to={`/services#${c.id}`} variant="text" arrow className={s.serviceLink}>
+                  {c.linkLabel}
                 </ButtonLink>
               </article>
             ))}

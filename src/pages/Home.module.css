@@ -140,43 +140,62 @@
   color: var(--steel);
 }
 
-/* ================= 02 Disciplines ================= */
-.disciplines {
+/* ================= 02 Services ================= */
+.services {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 32px;
 }
 
-.discipline {
+.service {
   display: flex;
   flex-direction: column;
 }
 
-.disciplineFigure {
+.serviceFigure {
   height: 300px;
 }
 
-.disciplineTitle {
+.serviceTitle {
   margin-top: 28px;
   margin-bottom: 14px;
 }
 
-.discipline > p {
-  flex-grow: 1;
+.serviceList {
+  margin-top: 24px;
+  margin-bottom: 16px;
 }
 
-.disciplineList {
-  margin-top: 24px;
+/* The whole row is the link */
+.service .serviceList > li {
+  padding: 0;
+}
+
+.serviceItem {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  transition: color 0.2s ease;
+}
+
+.serviceItem:hover {
+  color: var(--steel);
 }
 
 .plus {
   color: var(--steel);
   flex-shrink: 0;
   align-self: center;
+  transition: transform 0.25s var(--ease-out);
 }
 
-.disciplineLink {
-  margin-top: 16px;
+.serviceItem:hover .plus {
+  transform: rotate(90deg);
+}
+
+.serviceLink {
   align-self: flex-start;
 }
 
@@ -502,7 +521,7 @@
   }
 }
 
-/* Phones: swipeable rows for disciplines and projects, vertical timeline for process */
+/* Phones: swipeable rows for services and projects, vertical timeline for process */
 @media (max-width: 767px) {
   .heroText {
     gap: 28px;
@@ -518,7 +537,7 @@
     margin-top: 40px;
   }
 
-  .disciplines,
+  .services,
   .work {
     display: flex;
     gap: 16px;
@@ -531,13 +550,13 @@
     scrollbar-width: thin;
   }
 
-  .discipline,
+  .service,
   .workCard {
     flex: 0 0 min(300px, 82vw);
     scroll-snap-align: start;
   }
 
-  .disciplineFigure {
+  .serviceFigure {
     height: 200px;
   }
 

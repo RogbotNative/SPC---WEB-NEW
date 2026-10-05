@@ -5,6 +5,7 @@ import { CheckIcon, CloseIcon, DocIcon } from '../components/ui/Icons'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { Seo } from '../components/ui/Seo'
 import { site } from '../config/site'
+import { allServices } from '../data/services'
 import s from './Contact.module.css'
 
 /* ------------------------------------------------------------------ */
@@ -55,12 +56,8 @@ const projectStages = [
   { value: 'existing', label: 'Existing building / audit' },
 ]
 
-const serviceOptions = [
-  { id: 'structural', label: 'Structural design' },
-  { id: 'mep', label: 'MEP design' },
-  { id: 'supervision', label: 'Site supervision' },
-  { id: 'audit', label: 'Audit / peer review' },
-]
+/** "Services needed" toggles — the services listed on the Services page (src/data/services.ts). */
+const serviceOptions = allServices.map((sv) => ({ id: sv.id, label: sv.shortTitle }))
 
 const helpful = [
   'Architectural plans, sections and elevations',

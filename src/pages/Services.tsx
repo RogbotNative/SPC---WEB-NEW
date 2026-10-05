@@ -4,17 +4,16 @@ import { img } from '../assets'
 import { ButtonLink } from '../components/ui/Button'
 import { CtaBand } from '../components/ui/CtaBand'
 import { Figure } from '../components/ui/Figure'
-import { ArrowDown, CheckIcon, DocIcon, Minus, Plus } from '../components/ui/Icons'
+import { ArrowDown, Minus, Plus } from '../components/ui/Icons'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { Seo } from '../components/ui/Seo'
 import { site } from '../config/site'
 import {
-  disciplineDetails,
-  disciplines,
   engagementOptions,
+  serviceCategories,
   serviceFaqs,
-  type DisciplineDetail,
-  type ServiceLine,
+  type Service,
+  type ServiceCategory,
 } from '../data/services'
 import s from './Services.module.css'
 
@@ -26,67 +25,76 @@ const keepDots = (text: string) => text.replaceAll(' · ', '\u00a0· ')
 
 type Tone = 'light' | 'dark'
 
+/** Grounds for the category sections, in page order: paper, blueprint navy, white. */
+const grounds: { className: string; tone: Tone }[] = [
+  { className: 'section--paper', tone: 'light' },
+  { className: 'bg-grid-dark', tone: 'dark' },
+  { className: 'section--white', tone: 'light' },
+]
+
 /* ------------------------------------------------------------------ */
 
-/** Section label with the sheet code at the far end of the rule: (01) STRUCTURAL ———— S-100 */
-function SheetLabel({ num, detail, tone = 'light' }: { num: string; detail: DisciplineDetail; tone?: Tone }) {
+/** Section label with the sheet code at the far end of the rule: (01) AUDIT ———— A-100 */
+function SheetLabel({ num, category, tone }: { num: string; category: ServiceCategory; tone: Tone }) {
   return (
     <div className={cx(s.sheetLabel, tone === 'dark' && s.sheetLabelDark)}>
-      <SectionLabel num={num} label={detail.label} tone={tone} className={s.sheetLabelMain} />
-      <span className={s.sheetCode}>{detail.code}</span>
+      <SectionLabel num={num} label={category.title} tone={tone} className={s.sheetLabelMain} />
+      <span className={s.sheetCode}>{category.code}</span>
     </div>
   )
 }
 
-/** Ghost sheet code, two-line heading and intro shared by the three discipline sections. */
-function DisciplineHead({ detail, className }: { detail: DisciplineDetail; className?: string }) {
+/** Ghost sheet code and two-line heading, with the intro and an enquiry link beside them. */
+function CategoryHead({ category, tone }: { category: ServiceCategory; tone: Tone }) {
   return (
-    <div className={cx(s.head, className)}>
-      <span className={s.ghost} aria-hidden="true">
-        {detail.code}
-      </span>
-      <h2 className={`h2 ${s.headTitle}`} id={`${detail.id}-title`}>
-        <span>{detail.heading[0]}</span> <span>{detail.heading[1]}</span>
-      </h2>
-      <p className={s.headLead}>{detail.intro}</p>
-    </div>
-  )
-}
-
-/** "What we do" / "What you receive" hairline list with a count in the header. */
-function LineList({
-  title,
-  items,
-  marker,
-  className,
-  style,
-}: {
-  title: string
-  items: ServiceLine[]
-  marker: 'number' | 'doc'
-  className?: string
-  style?: CSSProperties
-}) {
-  return (
-    <div className={cx(s.list, className)} data-reveal style={style}>
-      <div className={s.listHead}>
-        <h3 className={s.listTitle}>{title}</h3>
-        <span className={s.listCount}>{pad(items.length)}</span>
+    <div className={s.head}>
+      <div className={s.headMain}>
+        <span className={s.ghost} aria-hidden="true">
+          {category.code}
+        </span>
+        <h2 className={`h2 ${s.headTitle}`} id={`${category.id}-title`}>
+          <span>{category.heading[0]}</span> <span>{category.heading[1]}</span>
+        </h2>
       </div>
-      <ul className={s.listItems}>
-        {items.map((it, i) => (
-          <li key={it.label} className={cx(s.listItem, !!it.note && s.listItemNoted)}>
-            {marker === 'number' ? (
-              <span className={s.listNum}>{pad(i + 1)}</span>
-            ) : (
-              <DocIcon size={16} className={s.listDoc} />
-            )}
-            <span className={s.listLabel}>{it.label}</span>
-            {it.note && <span className={s.listNote}>{it.note}</span>}
-          </li>
-        ))}
-      </ul>
+      <div className={s.headAside} data-reveal>
+        <p className={s.headLead}>{category.intro}</p>
+        <ButtonLink to="/contact" variant={tone === 'dark' ? 'text-light' : 'text'} arrow>
+          {category.cta}
+        </ButtonLink>
+      </div>
     </div>
+  )
+}
+
+/**
+ * One service: photo tagged with its sheet code, title, summary and numbered scope lines.
+ * The reveal animation sits on an inner wrapper so its offset doesn't skew jumps to /services#<id>.
+ */
+function ServiceCard({ service, style }: { service: Service; style?: CSSProperties }) {
+  return (
+    <article id={service.id} className={s.card} aria-labelledby={`${service.id}-title`}>
+      <div className={s.cardInner} data-reveal style={style}>
+        <Figure
+          src={service.image}
+          alt={service.imageAlt}
+          tag={service.code}
+          objectPosition={service.objectPosition}
+          className={s.cardFigure}
+        />
+        <h3 className={s.cardTitle} id={`${service.id}-title`}>
+          {service.title}
+        </h3>
+        <p className={s.cardText}>{service.summary}</p>
+        <ul className={s.cardList}>
+          {service.items.map((item, i) => (
+            <li key={item}>
+              <span className={s.cardNum}>{pad(i + 1)}</span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
   )
 }
 
@@ -137,13 +145,13 @@ function FaqAccordion() {
 /* ------------------------------------------------------------------ */
 
 export default function Services() {
-  const { structural, mep, supervision } = disciplineDetails
+  const serviceCount = serviceCategories.reduce((n, c) => n + c.services.length, 0)
 
   return (
     <>
       <Seo
         title="Services"
-        description="Structural design, MEP design and site supervision from one consultancy — RCC, steel and PT frames; HVAC, electrical, plumbing and fire; stage inspections through to commissioning and handover."
+        description="Audit, construction and design services from one consultancy — structural audits and certification, non-destructive tests, public health and HVAC engineering, fire and life safety, electrical, gas and utility systems, and BIM modeling."
         path="/services"
       />
 
@@ -153,28 +161,28 @@ export default function Services() {
           <div className={s.heroText}>
             <SectionLabel num="B" label="Services" rule={false} />
             <h1 className={`h1 ${s.heroTitle}`}>
-              <span>Structure, services</span> <span>and site{'\u00a0'}— under</span>{' '}
+              <span>Audit, construction</span> <span>and design{'\u00a0'}— under</span>{' '}
               <span className={s.steel}>one roof.</span>
             </h1>
             <p className={`lead ${s.heroLead}`}>
-              Structural design, MEP design and site supervision from one consultancy — coordinated on paper and
-              checked on site, from brief to handover.
+              Explore our range of services: from auditing and testing an existing building to engineering and
+              designing the services of a new one — from one consultancy.
             </p>
           </div>
 
-          <nav aria-label="Disciplines on this page" className={s.index}>
+          <nav aria-label="Service categories on this page" className={s.index}>
             <div className={s.indexHead}>
               <span>Sheet index</span>
-              <span className={s.indexHeadCount}>{pad(disciplines.length)} disciplines</span>
+              <span className={s.indexHeadCount}>{pad(serviceCount)} services</span>
             </div>
             <ul className={s.indexList}>
-              {disciplines.map((d) => (
-                <li key={d.id}>
-                  <a href={`#${d.id}`} className={s.indexLink}>
-                    <span className={s.indexCode}>{d.code}</span>
+              {serviceCategories.map((c) => (
+                <li key={c.id}>
+                  <a href={`#${c.id}`} className={s.indexLink}>
+                    <span className={s.indexCode}>{c.code}</span>
                     <span className={s.indexText}>
-                      <span className={s.indexTitle}>{d.title}</span>
-                      <span className={s.indexScope}>{keepDots(disciplineDetails[d.id].scope)}</span>
+                      <span className={s.indexTitle}>{c.title}</span>
+                      <span className={s.indexScope}>{keepDots(c.scope)}</span>
                     </span>
                     <ArrowDown size={22} className={s.indexArrow} />
                   </a>
@@ -185,106 +193,29 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ---------------- 01 Structural (S-100) ---------------- */}
-      <section id="structural" className="section section--paper" aria-labelledby="structural-title">
-        <div className="container stack">
-          <SheetLabel num="01" detail={structural} />
-          <div className={s.structural}>
-            <Figure
-              src={structural.figure.image}
-              alt={structural.figure.alt}
-              caption={structural.figure.caption}
-              tag={structural.code}
-              className={cx(s.figure, s.structFigure)}
-            />
-            <DisciplineHead detail={structural} className={s.areaHead} />
-            <div className={s.structLists}>
-              <LineList title="What we do" items={structural.services ?? []} marker="number" />
-              <LineList title="What you receive" items={structural.deliverables} marker="doc" style={delay(120)} />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- 02 MEP (M-200) ---------------- */}
-      <section id="mep" className="section bg-grid-dark" aria-labelledby="mep-title">
-        <div className="container stack">
-          <SheetLabel num="02" detail={mep} tone="dark" />
-          <div className={s.mep}>
-            <DisciplineHead detail={mep} className={s.areaHead} />
-            <Figure
-              src={mep.figure.image}
-              alt={mep.figure.alt}
-              caption={mep.figure.caption}
-              tag={mep.code}
-              className={cx(s.figure, s.mepFigure)}
-            />
-            <div className={s.mepSystems} data-reveal>
-              <div className={s.listHead}>
-                <h3 className={s.listTitle}>What we do</h3>
-                <span className={s.listCount}>{pad(mep.systems?.length ?? 0)} systems</span>
-              </div>
-              <div className={s.systems}>
-                {mep.systems?.map((sys) => (
-                  <div key={sys.code} className={s.system}>
-                    <span className={s.systemCode}>{sys.code}</span>
-                    <h4 className={s.systemTitle}>{sys.title}</h4>
-                    <ul className={s.systemItems}>
-                      {sys.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
+      {/* ---------------- 01 Audit · 02 Construction · 03 Design ---------------- */}
+      {serviceCategories.map((c, i) => {
+        const ground = grounds[i % grounds.length]
+        const threeUp = c.services.length > 2
+        return (
+          <section
+            key={c.id}
+            id={c.id}
+            className={`section ${ground.className}`}
+            aria-labelledby={`${c.id}-title`}
+          >
+            <div className="container stack">
+              <SheetLabel num={pad(i + 1)} category={c} tone={ground.tone} />
+              <CategoryHead category={c} tone={ground.tone} />
+              <div className={cx(s.cards, threeUp && s.cardsThree)}>
+                {c.services.map((service, j) => (
+                  <ServiceCard key={service.id} service={service} style={delay((j % (threeUp ? 3 : 2)) * 110)} />
                 ))}
               </div>
             </div>
-            <div className={s.mepDeliverables}>
-              <LineList title="What you receive" items={mep.deliverables} marker="doc" style={delay(120)} />
-              {mep.note && (
-                <p className={s.note} data-reveal style={delay(200)}>
-                  {mep.note}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------- 03 Supervision (C-300) ---------------- */}
-      <section id="supervision" className="section section--white" aria-labelledby="supervision-title">
-        <div className="container stack">
-          <SheetLabel num="03" detail={supervision} />
-          <div className={s.supervision}>
-            <div className={cx(s.figureWrap, s.supFigure)}>
-              <Figure
-                src={supervision.figure.image}
-                alt={supervision.figure.alt}
-                caption={supervision.figure.caption}
-                tag={supervision.code}
-                className={s.figure}
-              />
-              <span className={s.holdPoint}>
-                <CheckIcon size={14} />
-                {keepDots('Hold point · Released for pour')}
-              </span>
-            </div>
-            <DisciplineHead detail={supervision} className={cx(s.areaHead, s.supHead)} />
-            <LineList
-              title="What we do"
-              items={supervision.services ?? []}
-              marker="number"
-              className={s.supDo}
-            />
-            <LineList
-              title="What you receive"
-              items={supervision.deliverables}
-              marker="doc"
-              className={s.supReceive}
-              style={delay(120)}
-            />
-          </div>
-        </div>
-      </section>
+          </section>
+        )
+      })}
 
       {/* ---------------- 04 Engagement ---------------- */}
       <section id="engagement" className="section section--paper">

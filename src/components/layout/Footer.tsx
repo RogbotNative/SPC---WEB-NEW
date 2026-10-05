@@ -1,13 +1,12 @@
 import { Link } from 'react-router-dom'
 import { brand } from '../../assets'
 import { site } from '../../config/site'
+import { serviceCategories } from '../../data/services'
 import s from './Footer.module.css'
 
-const disciplines = [
-  { to: '/services#structural', label: 'Structural design' },
-  { to: '/services#mep', label: 'MEP design' },
-  { to: '/services#supervision', label: 'Site supervision' },
-  { to: '/services#engagement', label: 'Audits & peer review' },
+const services = [
+  ...serviceCategories.map((c) => ({ to: `/services#${c.id}`, label: c.title })),
+  { to: '/services#engagement', label: 'Ways to engage' },
 ]
 
 const company = [
@@ -41,10 +40,10 @@ export function Footer({ sheet, title }: { sheet: string; title: string }) {
             </p>
           </div>
 
-          <nav aria-label="Disciplines" className={s.col}>
-            <h2 className={s.colTitle}>Disciplines</h2>
+          <nav aria-label="Services" className={s.col}>
+            <h2 className={s.colTitle}>Services</h2>
             <ul className={s.links}>
-              {disciplines.map((l) => (
+              {services.map((l) => (
                 <li key={l.to}>
                   <Link to={l.to}>{l.label}</Link>
                 </li>

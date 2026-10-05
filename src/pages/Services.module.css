@@ -120,7 +120,7 @@
   transform: translateY(4px);
 }
 
-/* ================= Shared discipline pieces ================= */
+/* ================= Section label with sheet code ================= */
 .sheetLabel {
   display: flex;
   align-items: center;
@@ -144,22 +144,18 @@
   color: var(--steel-300);
 }
 
-.figure {
-  height: 100%;
-  min-height: 0;
-}
-
-.figure figcaption {
-  text-wrap: balance;
-}
-
-.figureWrap {
-  position: relative;
-}
-
+/* ================= Category sections ================= */
 .head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 540px);
+  gap: 32px clamp(48px, 6.1vw, 88px);
+  align-items: end;
+}
+
+.headMain {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .ghost {
@@ -188,9 +184,15 @@
   display: block;
 }
 
+.headAside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 4px;
+}
+
 .headLead {
-  margin-top: 24px;
-  max-width: 620px;
   font-size: clamp(17px, 1.25vw, 18px);
   line-height: 1.6;
   color: var(--slate);
@@ -201,273 +203,119 @@
   color: var(--on-dark);
 }
 
-/* Hairline lists */
-.list {
+/* Service cards: two up, or three up for larger categories */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 64px 32px;
+}
+
+/* Six tracks, so two cards left over on the last row can share it (3 + 2) */
+.cardsThree {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.cardsThree > .card {
+  grid-column: span 2;
+}
+
+.cardsThree > .card:nth-child(3n + 1):nth-last-child(2),
+.cardsThree > .card:nth-child(3n + 2):nth-last-child(1) {
+  grid-column: span 3;
+}
+
+.card {
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
-.listHead {
+.cardInner {
+  flex-grow: 1;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--navy);
+  flex-direction: column;
 }
 
-.listTitle {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--steel);
+/* Ratio-locked frame; the photo is positioned so a tall original can't stretch it */
+.cardFigure {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
 }
 
-.listCount {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
+.cardFigure img {
+  position: absolute;
+  inset: 0;
 }
 
-.listItem {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+.cardsThree .cardFigure {
+  aspect-ratio: 4 / 3;
+}
+
+.cardsThree > .card:nth-child(3n + 1):nth-last-child(2) .cardFigure,
+.cardsThree > .card:nth-child(3n + 2):nth-last-child(1) .cardFigure {
+  aspect-ratio: 16 / 10;
+}
+
+.cardTitle {
+  margin-top: 28px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 2.4vw, 34px);
+  line-height: 1.05;
+  color: var(--navy);
+  text-wrap: balance;
+}
+
+/* Grows so the scope lists line up across a row */
+.cardText {
+  flex-grow: 1;
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--slate);
+  text-wrap: pretty;
+}
+
+.cardList {
+  margin-top: 24px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.cardList li {
+  display: flex;
   align-items: baseline;
-  column-gap: 14px;
+  gap: 14px;
   padding: 12px 0;
-  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line-soft);
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--ink);
 }
 
-.listItemNoted {
-  grid-template-columns: auto minmax(0, 1fr) auto;
-}
-
-.listNum {
+.cardNum {
+  flex-shrink: 0;
   min-width: 14px;
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--steel);
 }
 
-.listDoc {
-  align-self: center;
-  color: var(--steel);
-}
-
-.listLabel {
-  font-size: 15px;
-  line-height: 22px;
-  color: var(--ink);
-}
-
-.listNote {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-align: right;
-  white-space: nowrap;
-  color: var(--muted);
-}
-
-:global(.bg-grid-dark) .listHead {
-  border-bottom-color: var(--on-dark-border);
-}
-
-:global(.bg-grid-dark) .listTitle,
-:global(.bg-grid-dark) .listNum,
-:global(.bg-grid-dark) .listDoc {
-  color: var(--steel-300);
-}
-
-:global(.bg-grid-dark) .listCount {
-  color: rgba(255, 255, 255, 0.66);
-}
-
-:global(.bg-grid-dark) .listItem {
-  border-bottom-color: var(--on-dark-line);
-}
-
-:global(.bg-grid-dark) .listLabel {
+:global(.bg-grid-dark) .cardTitle,
+:global(.bg-grid-dark) .cardList li {
   color: var(--white);
 }
 
-/* ================= 01 Structural ================= */
-.structural {
-  display: grid;
-  grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
-  grid-template-areas:
-    'fig head'
-    'fig lists';
-  column-gap: clamp(48px, 6.1vw, 88px);
-}
-
-.structFigure {
-  grid-area: fig;
-  min-height: 640px;
-}
-
-.areaHead {
-  grid-area: head;
-}
-
-.structLists {
-  grid-area: lists;
-  align-self: end;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 40px;
-  padding-top: 56px;
-}
-
-/* ================= 02 MEP ================= */
-.mep {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
-  grid-template-areas:
-    'head fig'
-    'systems deliverables';
-  gap: 64px clamp(48px, 6.1vw, 88px);
-}
-
-.mepFigure {
-  grid-area: fig;
-  height: 420px;
-}
-
-.mepSystems {
-  grid-area: systems;
-  display: flex;
-  flex-direction: column;
-}
-
-.systems {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 32px;
-}
-
-.system {
-  display: flex;
-  flex-direction: column;
-  padding: 18px 0 20px;
-}
-
-.system:nth-child(n + 3) {
-  border-top: 1px solid var(--on-dark-line);
-}
-
-.systemCode {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: var(--steel-300);
-}
-
-.systemTitle {
-  margin-top: 6px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 26px;
-  line-height: 1.1;
-  color: var(--white);
-}
-
-.systemItems {
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.systemItems li {
-  position: relative;
-  padding-left: 20px;
-  font-size: 15px;
-  line-height: 1.5;
+:global(.bg-grid-dark) .cardText {
   color: var(--on-dark);
 }
 
-.systemItems li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 11px;
-  width: 8px;
-  height: 1px;
-  background: var(--steel-300);
+:global(.bg-grid-dark) .cardList,
+:global(.bg-grid-dark) .cardList li {
+  border-color: var(--on-dark-line);
 }
 
-.mepDeliverables {
-  grid-area: deliverables;
-  display: flex;
-  flex-direction: column;
-}
-
-.note {
-  margin-top: 24px;
-  padding: 2px 0 2px 16px;
-  border-left: 2px solid var(--steel-300);
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.78);
-  text-wrap: pretty;
-}
-
-/* ================= 03 Supervision ================= */
-.supervision {
-  display: grid;
-  grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
-  grid-template-areas:
-    'fig head'
-    'do receive';
-  gap: 64px clamp(48px, 6.1vw, 88px);
-}
-
-.supFigure {
-  grid-area: fig;
-  height: 460px;
-}
-
-.supHead {
-  justify-content: center;
-}
-
-.supDo {
-  grid-area: do;
-}
-
-.supReceive {
-  grid-area: receive;
-}
-
-.holdPoint {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  max-width: calc(100% - 110px);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  background: var(--white);
-  border: 1px solid var(--navy);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--navy);
-}
-
-.holdPoint svg {
-  flex-shrink: 0;
-  color: var(--steel);
+:global(.bg-grid-dark) .cardNum {
+  color: var(--steel-300);
 }
 
 /* ================= 04 Engagement ================= */
@@ -851,51 +699,12 @@
     border-bottom: 1px solid var(--line);
   }
 
-  /* Structural: lists run full width under figure + heading */
-  .structural {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      'fig head'
-      'lists lists';
+  .head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
   }
 
-  .structFigure {
-    min-height: 460px;
-  }
-
-  .mep {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas:
-      'head fig'
-      'systems systems'
-      'deliverables deliverables';
+  .cards {
     row-gap: 56px;
-  }
-
-  .mepFigure {
-    height: auto;
-    min-height: 380px;
-  }
-
-  .mepDeliverables .listItems {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 40px;
-  }
-
-  .supervision {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    row-gap: 56px;
-  }
-
-  .supFigure {
-    height: auto;
-    min-height: 420px;
-  }
-
-  .supervision .listNote {
-    white-space: normal;
   }
 
   /* Engagement: options become wide horizontal cards */
@@ -958,56 +767,27 @@
     font-size: clamp(52px, 11vw, 104px);
   }
 
-  .structural {
+  .head {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      'head'
-      'fig'
-      'lists';
-    row-gap: 48px;
+    gap: 28px;
   }
 
-  .structFigure {
-    min-height: 0;
-    height: 480px;
+  .headAside {
+    max-width: 640px;
   }
 
-  .structLists {
-    padding-top: 0;
+  .cardsThree {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .mep {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'head'
-      'fig'
-      'systems'
-      'deliverables';
-    row-gap: 48px;
+  .cardsThree > .card,
+  .cardsThree > .card:nth-child(3n + 1):nth-last-child(2),
+  .cardsThree > .card:nth-child(3n + 2):nth-last-child(1) {
+    grid-column: auto;
   }
 
-  .mepFigure {
-    min-height: 0;
-    height: 440px;
-  }
-
-  .supervision {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'head'
-      'fig'
-      'do'
-      'receive';
-    row-gap: 48px;
-  }
-
-  .supFigure {
-    min-height: 0;
-    height: 440px;
-  }
-
-  .supervision .listNote {
-    white-space: nowrap;
+  .cardsThree > .card .cardFigure {
+    aspect-ratio: 16 / 10;
   }
 
   .engHead {
@@ -1074,41 +854,18 @@
     margin-top: 18px;
   }
 
-  .headLead {
-    margin-top: 18px;
-  }
-
-  .structFigure,
-  .mepFigure,
-  .supFigure {
-    height: 320px;
-  }
-
-  .structLists {
+  .cards,
+  .cardsThree {
     grid-template-columns: 1fr;
-    gap: 40px;
+    row-gap: 48px;
   }
 
-  .systems {
-    grid-template-columns: 1fr;
+  .cardTitle {
+    margin-top: 22px;
   }
 
-  .system:nth-child(n + 2) {
-    border-top: 1px solid var(--on-dark-line);
-  }
-
-  .mepDeliverables .listItems {
-    display: block;
-  }
-
-  .holdPoint {
-    right: 12px;
-    top: 12px;
-    max-width: calc(100% - 96px);
-    gap: 8px;
-    padding: 8px 10px;
-    font-size: 10px;
-    letter-spacing: 0.08em;
+  .cardText {
+    flex-grow: 0;
   }
 
   .option {
@@ -1159,16 +916,5 @@
 @media (max-width: 479px) {
   .heroTitle {
     font-size: min(52px, 13vw);
-  }
-
-  .listItemNoted {
-    grid-template-columns: auto minmax(0, 1fr);
-    row-gap: 4px;
-  }
-
-  .listItemNoted .listNote {
-    grid-column: 2;
-    text-align: left;
-    font-size: 10px;
   }
 }

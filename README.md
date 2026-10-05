@@ -38,7 +38,7 @@ npm run dev       # dev server at http://localhost:5173
 | Route | Page |
 |---|---|
 | `/` | Home |
-| `/services` | Services: structural (S-100), MEP (M-200), supervision (C-300), engagement models, FAQ |
+| `/services` | Services: audit (A-100), construction (C-200), design (D-300), engagement models, FAQ. Each service has an anchor, e.g. `/services#non-destructive-tests` |
 | `/projects` | Project index with sector filter (`?sector=residential`) |
 | `/projects/:slug` | Case study template (`/projects/project-01` … `project-09`) |
 | `/process` | Five-stage process |
@@ -56,7 +56,7 @@ Most content lives in data files, so you rarely need to touch page code.
 |---|---|
 | Phone, email, address, hours, reply time, home-page stats, testimonial, map, form endpoints | **`src/config/site.ts`** |
 | Projects and case-study details | `src/data/projects.ts` |
-| Services, MEP systems, engagement options, FAQ, design codes | `src/data/services.ts` |
+| Service categories and services (also used by the home page, footer and contact form), engagement options, FAQ, design codes | `src/data/services.ts` |
 | Process stages | `src/data/process.ts` |
 | Articles | `src/data/insights.ts`. Set `to` on an article to turn its card into a link. |
 | Job openings, hiring steps | `src/data/careers.ts` |
