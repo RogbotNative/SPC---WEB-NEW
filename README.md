@@ -145,13 +145,11 @@ Run `npm run dev` and open `http://localhost:5173/admin`. Sign in with the tempo
 
 ## Deploying
 
-Run `npm run build` and upload the contents of `dist/`. The site is a single-page app, so the host must send unknown paths to `index.html`. Config for that is included:
+The site is hosted on Vercel. Every push to `main` deploys automatically once the repo is imported in Vercel.
 
 | Host | How |
 |---|---|
 | **Vercel** | Import the repo. `vercel.json` handles rewrites, caching and security headers. The admin panel needs Vercel (see above). |
-| **Netlify** | Build command `npm run build`, publish directory `dist`. `public/_redirects` handles rewrites. The site works, but the admin panel does not (it needs Vercel functions). |
-| **cPanel / Apache** | Upload `dist/` contents to `public_html`. `public/.htaccess` (copied into `dist`) handles rewrites. No admin panel on this host. |
 
 ## Project structure
 
@@ -168,7 +166,7 @@ src/
     layout/               Layout, Header (+ mobile menu), Footer (title block)
     ui/                   Button, SectionLabel, Figure, FilterChips, CtaBand, SplitBand, Placeholder, Icons, Seo
   pages/                  one folder-less page per route + its CSS module
-public/                   favicon, social image, robots, sitemap, host rewrite rules
+public/                   favicon, social image, robots, sitemap
 ```
 
 ## Accessibility & performance
