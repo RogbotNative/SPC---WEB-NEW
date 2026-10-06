@@ -12,10 +12,24 @@ import '@fontsource/ibm-plex-mono/500.css'
 
 import './styles/tokens.css'
 import './styles/global.css'
-import App from './App'
+import { applyImageOverrides } from './assets'
+import { loadContent } from './cms/runtime'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+/**
+ * Photos, testimonials and posts edited in the admin panel are fetched first and applied before the app
+ * (and the data files that read the photo registry) is imported, so every page renders with them.
+ */
+async function start() {
+  if (!location.pathname.startsWith('/admin')) {
+    const content = await loadContent()
+    applyImageOverrides(content.images)
+  }
+  const { default: App } = await import('./App')
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+}
+
+void start()

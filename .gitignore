@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Admin panel: local content and uploads (npm run dev), Vercel CLI
+.data
+.vercel
+.env*.local

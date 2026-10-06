@@ -1,13 +1,10 @@
 import { img } from '../assets'
+import { getContent } from '../cms/runtime'
+import type { PostMeta } from '../cms/types'
 
-export type TopicId = 'structural' | 'mep' | 'site' | 'codes'
+import { topics, type TopicId } from './topics'
 
-export const topics: { id: TopicId; label: string }[] = [
-  { id: 'structural', label: 'Structural' },
-  { id: 'mep', label: 'MEP' },
-  { id: 'site', label: 'Site' },
-  { id: 'codes', label: 'Codes' },
-]
+export { topics, type TopicId }
 
 export interface Article {
   id: string
@@ -33,7 +30,8 @@ export interface Article {
   to?: string
 }
 
-export const articles: Article[] = [
+/** Placeholder notes, shown until the first post is published from the admin panel. */
+const placeholderArticles: Article[] = [
   {
     id: 'mep-before-structure-freeze',
     topic: 'mep',
@@ -115,3 +113,45 @@ export const articles: Article[] = [
     imageAlt: 'Aerial view of reinforcement mats and workers on a slab',
   },
 ]
+
+/* ------------------------------------------------------------------
+   Posts written in the admin panel (/admin → Blog)
+   ------------------------------------------------------------------ */
+
+const topicTag: Record<TopicId, string> = { structural: 'S-100', mep: 'M-200', site: 'C-300', codes: 'Codes' }
+const topicImage: Record<TopicId, string> = {
+  structural: img.concreteFrame,
+  mep: img.hvacUnit,
+  site: img.aerialRebar,
+  codes: img.drawingsDesk,
+}
+
+export const formatPostDate = (iso: string | null) =>
+  iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''
+
+function toArticle(post: PostMeta, featured: boolean): Article {
+  return {
+    id: post.slug,
+    topic: post.topic,
+    tag: topicTag[post.topic],
+    title: post.title,
+    excerpt: post.excerpt,
+    date: formatPostDate(post.publishedAt),
+    readTime: `${post.readMinutes} min read`,
+    image: post.coverUrl || topicImage[post.topic],
+    imageAlt: post.coverAlt || '',
+    featured,
+    to: `/insights/${post.slug}`,
+  }
+}
+
+const published = getContent().posts
+const featuredId = (published.find((p) => p.featured) ?? published[0])?.id
+
+/**
+ * Once anything is published from the admin panel, the Insights page shows only real posts
+ * (newest first, with the post marked "featured" — or the newest — at the top).
+ */
+export const articles: Article[] = published.length
+  ? published.map((p) => toArticle(p, p.id === featuredId))
+  : placeholderArticles

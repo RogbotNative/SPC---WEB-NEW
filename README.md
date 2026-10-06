@@ -46,6 +46,8 @@ npm run dev       # dev server at http://localhost:5173
 | `/insights` | Articles with topic filter (`?topic=mep`) and newsletter sign-up |
 | `/careers` | Open roles with discipline filter, hiring process |
 | `/contact` | Enquiry form with validation and attachments, office map |
+| `/insights/:slug` | Blog post written in the admin panel |
+| `/admin` | Admin panel (sign-in required) |
 | anything else | 404 page |
 
 ## Editing content
@@ -98,15 +100,64 @@ forms: {
 - **Endpoint empty:** the form shows its success state without sending anything. This is fine for development, but **set the endpoint before launch**.
 - **Map:** set `contact.mapEmbedUrl` (Google Maps → Share → Embed a map → copy the `src`) and `contact.directionsUrl` to replace the blueprint map placeholder.
 
+## Admin panel (`/admin`)
+
+A password-protected panel where the client can, without touching code:
+
+- **Photos:** replace any photo on the site (or drag one onto its card). Photos are resized in the browser to 2400 px and saved as WebP, and their location data is removed. "Put back original" undoes a replacement.
+- **Testimonials:** add, edit, reorder, hide or delete the quotes on the home page. If there is more than one, visitors can click through them.
+- **Blog:** write Insights posts in a Word-style editor with headings, bold, lists, quotes, links, photos and alignment. Pasting from Word keeps the formatting. Posts can be saved as drafts, published, taken offline, featured or deleted. Once the first post is published, the sample notes on `/insights` are replaced, and each post gets its own page at `/insights/<slug>`.
+- **Security:** a log of every sign-in, including wrong passwords, and every change, with the time, device and IP address. The current session and the previous sign-in are shown too.
+
+Changes appear on the live site within about a minute (the public content is cached for 30 s at Vercel's edge).
+
+### Setting it up on Vercel (one time)
+
+1. **Storage:** in the Vercel project, go to **Storage → Create → Blob** and connect it to the project. This adds `BLOB_READ_WRITE_TOKEN` automatically.
+2. **Credentials:** go to **Settings → Environment Variables** and add:
+
+   | Variable | Value |
+   |---|---|
+   | `ADMIN_USERNAME` | the sign-in name |
+   | `ADMIN_PASSWORD_HASH` | run `npm run admin:hash-password` and paste the printed value (recommended) |
+   | `ADMIN_PASSWORD` | *or* the plain password, if you'd rather not hash it (leave the hash empty) |
+   | `SESSION_SECRET` | 32+ random characters (the hash script prints one) |
+
+3. **Redeploy**, then open `https://<your-domain>/admin`.
+
+To change the password, update the variable and redeploy. Every open session is signed out automatically. Changing `SESSION_SECRET` also signs everyone out.
+
+### Security
+
+- The password is never stored in the code. The recommended form is an scrypt hash, and checks run in constant time.
+- Sessions use a signed `__Host-` cookie that is HttpOnly, Secure and SameSite=Strict, and they expire after 8 hours.
+- After 5 wrong passwords from one IP address within 15 minutes, sign-in is paused for 15 minutes. Every attempt is logged.
+- Every request that changes something must carry a custom header and come from the same origin, which blocks cross-site request forgery.
+- The server checks every upload by its actual file bytes (only JPG, PNG and WebP, up to 4 MB) and stores it under a random name. Only photos stored in this project's Blob storage can be used.
+- Blog text is cleaned with DOMPurify before it is shown on the site.
+- `/admin` is served with a strict Content-Security-Policy, `X-Frame-Options: DENY` and `noindex`, and is disallowed in `robots.txt`.
+- The activity log and lockout records are stored at a path derived from `SESSION_SECRET`, so they can't be guessed.
+
+### Running it locally
+
+Copy `.env.example` to `.env.local`, fill in `ADMIN_USERNAME`, the password and `SESSION_SECRET`, then run `npm run dev` and open `http://localhost:5173/admin`. Without a `BLOB_READ_WRITE_TOKEN`, content and uploads are saved in `.data/`, which is git-ignored.
+
+| Where | What |
+|---|---|
+| `api/` | Vercel functions: `content` and `post` are public; `admin/*` handles sign-in, content, posts, uploads and activity |
+| `api/_lib/` | Auth, password hashing, storage (Blob or local), validation, activity log |
+| `src/admin/` | The admin panel (loaded only when `/admin` is opened) |
+| `src/cms/` | Shared content types, the list of replaceable photos (`photoSlots.ts`) and the runtime loader |
+
 ## Deploying
 
 Run `npm run build` and upload the contents of `dist/`. The site is a single-page app, so the host must send unknown paths to `index.html`. Config for that is included:
 
 | Host | How |
 |---|---|
-| **Vercel** | Import the repo. `vercel.json` handles rewrites and caching. |
-| **Netlify** | Build command `npm run build`, publish directory `dist`. `public/_redirects` handles rewrites. |
-| **cPanel / Apache** | Upload `dist/` contents to `public_html`. `public/.htaccess` (copied into `dist`) handles rewrites. |
+| **Vercel** | Import the repo. `vercel.json` handles rewrites, caching and security headers. The admin panel needs Vercel (see above). |
+| **Netlify** | Build command `npm run build`, publish directory `dist`. `public/_redirects` handles rewrites. The site works, but the admin panel does not (it needs Vercel functions). |
+| **cPanel / Apache** | Upload `dist/` contents to `public_html`. `public/.htaccess` (copied into `dist`) handles rewrites. No admin panel on this host. |
 
 ## Project structure
 

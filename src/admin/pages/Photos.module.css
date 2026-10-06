@@ -1,0 +1,99 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.over {
+  border-color: var(--steel);
+  box-shadow: 0 0 0 3px rgba(0, 102, 153, 0.25);
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--navy-900);
+  overflow: hidden;
+}
+
+.frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.status {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.busy,
+.dropHint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(0, 32, 63, 0.72);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.dropHint {
+  border: 2px dashed var(--steel-300);
+}
+
+.body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.1;
+  color: var(--navy);
+}
+
+.used {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--slate);
+}
+
+.body > :last-child {
+  margin-top: auto;
+  padding-top: 8px;
+}

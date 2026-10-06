@@ -431,6 +431,63 @@
   letter-spacing: 0.14em;
 }
 
+/* Fades each testimonial in when it changes */
+.quoteText {
+  animation: quoteIn 0.5s var(--ease-out);
+}
+
+@keyframes quoteIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.quoteNav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-left: 56px;
+}
+
+.quoteBtn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--steel);
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.quoteBtn:hover {
+  border-color: var(--steel);
+  background: var(--steel);
+  color: var(--white);
+}
+
+.flip {
+  transform: scaleX(-1);
+}
+
+.quoteCount {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quoteText {
+    animation: none;
+  }
+}
+
 .logos {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -627,7 +684,8 @@
     top: -8px;
   }
 
-  .quote figcaption {
+  .quote figcaption,
+  .quoteNav {
     padding-left: 40px;
   }
 

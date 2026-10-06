@@ -1,0 +1,130 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line-strong);
+  background: var(--white);
+}
+
+.wrap:focus-within {
+  border-color: var(--steel);
+}
+
+/* Ribbon-style toolbar that stays visible while scrolling a long post */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 8px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.styleSelect select {
+  height: 38px;
+  width: 168px;
+  font-size: 15px;
+  background-color: var(--white);
+  background-position:
+    calc(100% - 20px) 16px,
+    calc(100% - 15px) 16px;
+}
+
+.sep {
+  width: 1px;
+  height: 24px;
+  margin: 0 6px;
+  background: var(--line-strong);
+}
+
+.tool {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--navy);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.tool:hover:not(:disabled) {
+  background: var(--white);
+  border-color: var(--line-strong);
+}
+
+.toolOn,
+.toolOn:hover:not(:disabled) {
+  background: var(--navy-900);
+  border-color: var(--navy-900);
+  color: var(--white);
+}
+
+.tool:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.tool:focus-visible {
+  outline: 2px solid var(--steel);
+  outline-offset: 1px;
+}
+
+/* The writing area looks like a page */
+.page {
+  padding: clamp(24px, 4vw, 56px) clamp(20px, 5vw, 72px);
+  cursor: text;
+}
+
+.content {
+  min-height: 420px;
+  max-width: 720px;
+  margin: 0 auto;
+  outline: none;
+}
+
+.content :global(p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  color: #8a9bab;
+  pointer-events: none;
+}
+
+.content :global(.ProseMirror-selectednode) {
+  outline: 3px solid var(--steel);
+}
+
+.content img {
+  cursor: pointer;
+}
+
+.status {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line-soft);
+  background: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .styleSelect select {
+    width: 140px;
+  }
+
+  .sep {
+    display: none;
+  }
+}

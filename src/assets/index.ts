@@ -35,6 +35,7 @@ import wordmarkNavy from './brand/wordmark-navy.svg'
 import wordmarkWhite from './brand/wordmark-white.svg'
 import logoFullColor from './brand/logo-full-color.svg'
 import logoFullWhite from './brand/logo-full-white.svg'
+import type { ImageKey } from './keys'
 
 export const img = {
   aerialRebar,
@@ -62,9 +63,25 @@ export const img = {
   studio,
   team,
   villa,
-} as const
+} satisfies Record<ImageKey, string>
 
-export type ImageKey = keyof typeof img
+export type { ImageKey }
+
+/** Default (bundled) photo for each key — used by the admin panel's "Reset to original". */
+export const defaultImages: Readonly<Record<ImageKey, string>> = { ...img }
+
+/**
+ * Swaps in photos replaced from the admin panel. main.tsx calls this before the app's data modules load,
+ * so every page picks up the new photo. Only known keys and http(s)/same-site URLs are accepted.
+ */
+export function applyImageOverrides(overrides: Record<string, string> | undefined) {
+  if (!overrides) return
+  for (const [key, url] of Object.entries(overrides)) {
+    if (key in img && typeof url === 'string' && /^(https:\/\/|\/(?!\/))/.test(url)) {
+      img[key as ImageKey] = url
+    }
+  }
+}
 
 export const brand = {
   markColor,

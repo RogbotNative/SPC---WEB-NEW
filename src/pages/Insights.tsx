@@ -199,23 +199,25 @@ export default function Insights() {
             </div>
           </div>
 
-          <div className={s.filterBar}>
-            <div className={s.filterGroup} onFocus={keepInView}>
-              <span className={s.filterLabel} aria-hidden="true">
-                Topic
-              </span>
-              <FilterChips
-                options={chipOptions}
-                value={topic}
-                onChange={setTopic}
-                label="Filter notes by topic"
-                className={s.chipRow}
-              />
+          {notes.length > 0 && (
+            <div className={s.filterBar}>
+              <div className={s.filterGroup} onFocus={keepInView}>
+                <span className={s.filterLabel} aria-hidden="true">
+                  Topic
+                </span>
+                <FilterChips
+                  options={chipOptions}
+                  value={topic}
+                  onChange={setTopic}
+                  label="Filter notes by topic"
+                  className={s.chipRow}
+                />
+              </div>
+              <p className={s.count} aria-live="polite">
+                Showing {pad(visible.length)} of {pad(notes.length)} notes
+              </p>
             </div>
-            <p className={s.count} aria-live="polite">
-              Showing {pad(visible.length)} of {pad(notes.length)} notes
-            </p>
-          </div>
+          )}
         </div>
       </section>
 
@@ -249,46 +251,49 @@ export default function Insights() {
       )}
 
       {/* ---------------- 02 All notes ---------------- */}
-      <section className={`section--paper ${s.notesSection}`} aria-labelledby="notes-title">
-        <div className={`container ${s.sectionStack}`}>
-          {/* The visible label is decorative; the hidden h2 carries the same text for assistive tech. */}
-          <div aria-hidden="true">
-            <SectionLabel num="02" label={gridLabel} />
+      {/* With only one post, it sits in the Featured slot and the grid is left out. */}
+      {notes.length > 0 && (
+        <section className={`section--paper ${s.notesSection}`} aria-labelledby="notes-title">
+          <div className={`container ${s.sectionStack}`}>
+            {/* The visible label is decorative; the hidden h2 carries the same text for assistive tech. */}
+            <div aria-hidden="true">
+              <SectionLabel num="02" label={gridLabel} />
+            </div>
+            <h2 id="notes-title" className="visually-hidden">
+              {gridLabel}
+            </h2>
+            {visible.length > 0 ? (
+              <div className={s.grid}>
+                {visible.map((a, i) => (
+                  <ArticleShell key={a.id} article={a} className={s.card}>
+                    <div data-reveal style={delay((i % 3) * 90)} className={s.cardInner}>
+                      <div className={s.cardImage}>
+                        <img src={a.image} alt={a.imageAlt} loading="lazy" decoding="async" />
+                        <span className={s.tag}>{a.tag}</span>
+                      </div>
+                      <span className={`${s.topic} ${s.cardTopic}`}>{topicLabel(a.topic)}</span>
+                      <h3 className={s.cardTitle}>{a.title}</h3>
+                      <p className={s.cardExcerpt}>{a.excerpt}</p>
+                      <div className={s.cardFoot}>
+                        <span className="meta">{a.date}</span>
+                        <ReadMore article={a} />
+                      </div>
+                    </div>
+                  </ArticleShell>
+                ))}
+              </div>
+            ) : (
+              <div className={s.empty}>
+                <p className={s.emptyTitle}>No notes on this topic yet.</p>
+                <p className="body">New notes are added as they are written. Browse everything in the meantime.</p>
+                <Button variant="outline-dark" onClick={() => setTopic('all')}>
+                  Show all notes
+                </Button>
+              </div>
+            )}
           </div>
-          <h2 id="notes-title" className="visually-hidden">
-            {gridLabel}
-          </h2>
-          {visible.length > 0 ? (
-            <div className={s.grid}>
-              {visible.map((a, i) => (
-                <ArticleShell key={a.id} article={a} className={s.card}>
-                  <div data-reveal style={delay((i % 3) * 90)} className={s.cardInner}>
-                    <div className={s.cardImage}>
-                      <img src={a.image} alt={a.imageAlt} loading="lazy" decoding="async" />
-                      <span className={s.tag}>{a.tag}</span>
-                    </div>
-                    <span className={`${s.topic} ${s.cardTopic}`}>{topicLabel(a.topic)}</span>
-                    <h3 className={s.cardTitle}>{a.title}</h3>
-                    <p className={s.cardExcerpt}>{a.excerpt}</p>
-                    <div className={s.cardFoot}>
-                      <span className="meta">{a.date}</span>
-                      <ReadMore article={a} />
-                    </div>
-                  </div>
-                </ArticleShell>
-              ))}
-            </div>
-          ) : (
-            <div className={s.empty}>
-              <p className={s.emptyTitle}>No notes on this topic yet.</p>
-              <p className="body">New notes are added as they are written. Browse everything in the meantime.</p>
-              <Button variant="outline-dark" onClick={() => setTopic('all')}>
-                Show all notes
-              </Button>
-            </div>
-          )}
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ---------------- 03 Newsletter ---------------- */}
       <section className={`section bg-grid-dark ${s.newsletter}`} aria-labelledby="newsletter-title">

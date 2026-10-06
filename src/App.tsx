@@ -29,10 +29,17 @@ const router = createBrowserRouter([
       { path: 'contact', lazy: page(() => import('./pages/Contact')), handle: h('light', 'A-06', 'Contact') },
       { path: 'process', lazy: page(() => import('./pages/Process')), handle: h('dark', 'A-07', 'Process') },
       { path: 'insights', lazy: page(() => import('./pages/Insights')), handle: h('light', 'A-08', 'Insights') },
+      {
+        path: 'insights/:slug',
+        lazy: page(() => import('./pages/Article')),
+        handle: h('light', 'A-08', 'Insights note'),
+      },
       { path: 'careers', lazy: page(() => import('./pages/Careers')), handle: h('dark', 'A-09', 'Careers') },
       { path: '*', lazy: page(() => import('./pages/NotFound')), handle: h('dark', 'A-404', 'Not found') },
     ],
   },
+  // Admin panel: its own layout, loaded only when someone opens /admin.
+  { path: 'admin/*', lazy: page(() => import('./admin/AdminApp')), hydrateFallbackElement: null },
 ])
 
 export default function App() {

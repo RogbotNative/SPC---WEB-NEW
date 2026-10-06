@@ -1,6 +1,8 @@
 import type { CSSProperties } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { img } from '../assets'
+import { getContent } from '../cms/runtime'
 import { ButtonLink } from '../components/ui/Button'
 import { CtaBand } from '../components/ui/CtaBand'
 import { Figure } from '../components/ui/Figure'
@@ -22,6 +24,42 @@ const coordination = [
   'Shafts and plant rooms sized with the loads they carry',
   'Clash checks completed before drawings are issued for construction',
 ]
+
+/** Testimonials from the admin panel (visible ones only), or the placeholder in config/site.ts. */
+function Testimonials() {
+  const saved = getContent().testimonials
+  const items = saved?.length
+    ? saved.map((t) => ({ id: t.id, quote: t.quote, attribution: [t.name, [t.role, t.company].filter(Boolean).join(', ')].filter(Boolean).join(' — ') }))
+    : [{ id: 'default', quote: site.testimonial.quote, attribution: site.testimonial.attribution }]
+  const [index, setIndex] = useState(0)
+  const current = items[index % items.length]
+  const step = (d: number) => setIndex((i) => (i + d + items.length) % items.length)
+
+  return (
+    <figure className={s.quote} data-reveal aria-roledescription={items.length > 1 ? 'carousel' : undefined}>
+      <blockquote key={current.id} className={s.quoteText}>
+        <span aria-hidden="true" className={s.quoteMark}>
+          “
+        </span>
+        {current.quote}
+      </blockquote>
+      <figcaption className="meta">{current.attribution}</figcaption>
+      {items.length > 1 && (
+        <div className={s.quoteNav}>
+          <button type="button" className={s.quoteBtn} onClick={() => step(-1)} aria-label="Previous testimonial">
+            <ArrowRight className={s.flip} />
+          </button>
+          <span className={s.quoteCount} aria-live="polite">
+            {String(index + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
+          </span>
+          <button type="button" className={s.quoteBtn} onClick={() => step(1)} aria-label="Next testimonial">
+            <ArrowRight />
+          </button>
+        </div>
+      )}
+    </figure>
+  )
+}
 
 const pins = [
   { label: '01', x: '20.5%', y: '18.3%' },
@@ -265,15 +303,7 @@ export default function Home() {
         <div className="container stack">
           <SectionLabel num="06" label="Clients" />
           <div className={s.clients}>
-            <figure className={s.quote} data-reveal>
-              <blockquote>
-                <span aria-hidden="true" className={s.quoteMark}>
-                  “
-                </span>
-                {site.testimonial.quote}
-              </blockquote>
-              <figcaption className="meta">{site.testimonial.attribution}</figcaption>
-            </figure>
+            <Testimonials />
             <div className={s.logos} data-reveal style={delay(120)}>
               {Array.from({ length: site.clientLogoSlots }, (_, i) => (
                 <Placeholder key={i} label="[Client logo]" variant="dashed" className={s.logo} />
