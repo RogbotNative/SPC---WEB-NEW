@@ -16,14 +16,20 @@ export const site = {
     emailHref: 'mailto:hello@yourdomain.com',
     careersEmail: '[careers@yourdomain.com]',
     careersEmailHref: 'mailto:careers@yourdomain.com',
-    addressLines: ['[Office address, line 1]', '[Area, City – PIN]'],
+    addressLines: [
+      '1108/G, 10th Main Road, 2nd Stage',
+      'Hampi Nagar, RPC Layout, Vijayanagar',
+      'Bengaluru, Karnataka – 560104',
+    ],
     hours: '[Mon–Sat, 9:30–18:30]',
-    city: '[City]',
+    city: 'Bengaluru',
     replyTime: '[2 working days]',
     /** Google Maps "embed" URL (Share → Embed a map → copy the src). Leave empty to show the blueprint placeholder. */
-    mapEmbedUrl: '',
+    mapEmbedUrl:
+      'https://www.google.com/maps?q=SP+Consulting+Services,+1108%2FG,+10th+Main+Rd,+Hampi+Nagar,+Vijayanagar,+Bengaluru,+Karnataka+560104&z=16&output=embed',
     /** Link for the "Get directions" button. */
-    directionsUrl: '',
+    directionsUrl:
+      'https://www.google.com/maps/dir/?api=1&destination=SP+Consulting+Services%2C+1108%2FG%2C+10th+Main+Rd%2C+Hampi+Nagar%2C+Vijayanagar%2C+Bengaluru%2C+Karnataka+560104',
   },
 
   /** Headline numbers on the home page. */
