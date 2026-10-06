@@ -113,34 +113,28 @@ Changes appear on the live site within about a minute (the public content is cac
 
 ### Setting it up on Vercel (one time)
 
-1. **Storage:** in the Vercel project, go to **Storage → Create → Blob** and connect it to the project. This adds `BLOB_READ_WRITE_TOKEN` automatically.
-2. **Credentials:** go to **Settings → Environment Variables** and add:
+1. **Storage:** in the Vercel project, go to **Storage → Create → Blob** and connect it to the project (all environments). This is the only setting needed: it adds `BLOB_READ_WRITE_TOKEN`, and the session secret is derived from it.
+2. **Deploy**, then open `https://<your-domain>/admin`.
+3. **Sign in with the temporary details** the client was given, then go to **Security → Sign-in details** and set a new email and password straight away. Until you do, the dashboard shows a reminder.
 
-   | Variable | Value |
-   |---|---|
-   | `ADMIN_USERNAME` | the sign-in name |
-   | `ADMIN_PASSWORD_HASH` | run `npm run admin:hash-password` and paste the printed value (recommended) |
-   | `ADMIN_PASSWORD` | *or* the plain password, if you'd rather not hash it (leave the hash empty) |
-   | `SESSION_SECRET` | 32+ random characters (the hash script prints one) |
+The email and password are changed **in the admin panel** (Security → Sign-in details). The current password is always required, passwords are stored as scrypt hashes, and saving signs out every other device.
 
-3. **Redeploy**, then open `https://<your-domain>/admin`.
-
-To change the password, update the variable and redeploy. Every open session is signed out automatically. Changing `SESSION_SECRET` also signs everyone out.
+**Forgot the password?** In Vercel → Storage → the Blob store, delete the file `private-…/credentials.json`. The temporary sign-in then works again, so you can set new details. Optional environment variables override the defaults: `ADMIN_USERNAME` with `ADMIN_PASSWORD_HASH` (from `npm run admin:hash-password`) or `ADMIN_PASSWORD` (these apply only while no details have been saved from the panel), and `SESSION_SECRET` (32+ characters).
 
 ### Security
 
-- The password is never stored in the code. The recommended form is an scrypt hash, and checks run in constant time.
-- Sessions use a signed `__Host-` cookie that is HttpOnly, Secure and SameSite=Strict, and they expire after 8 hours.
+- Passwords are only ever stored as scrypt hashes, including the temporary one in the code, and checks run in constant time. The current password is needed to change the email or password.
+- Sessions use a signed `__Host-` cookie that is HttpOnly, Secure and SameSite=Strict, and they expire after 8 hours. Changing the sign-in details signs out every other session.
 - After 5 wrong passwords from one IP address within 15 minutes, sign-in is paused for 15 minutes. Every attempt is logged.
 - Every request that changes something must carry a custom header and come from the same origin, which blocks cross-site request forgery.
 - The server checks every upload by its actual file bytes (only JPG, PNG and WebP, up to 4 MB) and stores it under a random name. Only photos stored in this project's Blob storage can be used.
 - Blog text is cleaned with DOMPurify before it is shown on the site.
 - `/admin` is served with a strict Content-Security-Policy, `X-Frame-Options: DENY` and `noindex`, and is disallowed in `robots.txt`.
-- The activity log and lockout records are stored at a path derived from `SESSION_SECRET`, so they can't be guessed.
+- Sign-in details, the activity log and lockout records are stored at a path derived from the server secret, so they can't be guessed.
 
 ### Running it locally
 
-Copy `.env.example` to `.env.local`, fill in `ADMIN_USERNAME`, the password and `SESSION_SECRET`, then run `npm run dev` and open `http://localhost:5173/admin`. Without a `BLOB_READ_WRITE_TOKEN`, content and uploads are saved in `.data/`, which is git-ignored.
+Run `npm run dev` and open `http://localhost:5173/admin`. Sign in with the temporary details (no `.env.local` needed). Without a `BLOB_READ_WRITE_TOKEN`, content and uploads are saved in `.data/`, which is git-ignored.
 
 | Where | What |
 |---|---|

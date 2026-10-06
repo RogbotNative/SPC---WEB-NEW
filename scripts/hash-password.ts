@@ -1,7 +1,7 @@
 /**
- * Prints an ADMIN_PASSWORD_HASH for the admin panel.
+ * Optional: prints an ADMIN_PASSWORD_HASH for the admin panel's fallback sign-in.
  *   npm run admin:hash-password
- * Paste the printed value into Vercel → Settings → Environment Variables as ADMIN_PASSWORD_HASH, then redeploy.
+ * Normally the password is changed in the admin panel itself (Security → Sign-in details).
  */
 import { randomBytes } from 'node:crypto'
 import { stdin, stdout } from 'node:process'

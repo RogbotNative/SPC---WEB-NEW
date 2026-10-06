@@ -9,6 +9,7 @@ export interface Toast {
 
 export interface AdminState {
   session: SessionInfo
+  refreshSession: () => Promise<void>
   content: SiteContent
   setContent: (c: SiteContent) => void
   notify: (message: string, tone?: Toast['tone']) => void

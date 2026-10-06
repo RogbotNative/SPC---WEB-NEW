@@ -27,14 +27,14 @@ const idParam = (request: Request) => {
 }
 
 export const GET = handle(async (request) => {
-  requireSession(request)
+  await requireSession(request)
   const post = await readPost(idParam(request))
   return post ? json(post) : error(404, 'Post not found.')
 })
 
 export const POST = handle(async (request) => {
   assertSameOrigin(request)
-  requireSession(request)
+  await requireSession(request)
   const body = await readBody<Record<string, unknown>>(request, 600_000)
   const input = validatePost(body)
   const status: PostStatus = body.status === 'published' ? 'published' : 'draft'
@@ -74,7 +74,7 @@ export const POST = handle(async (request) => {
 
 export const DELETE = handle(async (request) => {
   assertSameOrigin(request)
-  requireSession(request)
+  await requireSession(request)
   const id = idParam(request)
   const site = await readSite()
   const meta = site.posts.find((p) => p.id === id)

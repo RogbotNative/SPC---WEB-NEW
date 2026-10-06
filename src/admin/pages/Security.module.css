@@ -91,30 +91,58 @@
   padding: 10px 0;
 }
 
-.steps {
+.form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
+  max-width: 720px;
 }
 
-.steps ol {
-  padding-left: 22px;
-  list-style: decimal;
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--slate);
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
-.steps code {
-  padding: 1px 6px;
-  background: var(--paper);
-  font-family: var(--font-mono);
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 13px;
-  color: var(--navy);
+  color: var(--muted);
+}
+
+.meter span {
+  width: 64px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--c) var(--w), var(--line-soft) var(--w));
+}
+
+.meter[data-level='1'] span {
+  --c: #b42318;
+  --w: 33%;
+}
+
+.meter[data-level='2'] span {
+  --c: #b54708;
+  --w: 66%;
+}
+
+.meter[data-level='3'] span {
+  --c: #067647;
+  --w: 100%;
+}
+
+.formFoot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 1023px) {
-  .cards {
+  .cards,
+  .pair {
     grid-template-columns: 1fr;
   }
 }

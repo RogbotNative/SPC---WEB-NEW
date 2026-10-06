@@ -11,13 +11,13 @@ import { assertSameOrigin, handle, HttpError, json, readBody } from '../_lib/htt
 const labelOf = (key: string) => photoSlots.find((s) => s.key === key)?.label ?? key
 
 export const GET = handle(async (request) => {
-  requireSession(request)
+  await requireSession(request)
   return json(await readSite())
 })
 
 export const PUT = handle(async (request) => {
   assertSameOrigin(request)
-  requireSession(request)
+  await requireSession(request)
   const body = await readBody<{ images?: unknown; testimonials?: unknown }>(request, 200_000)
   const site = await readSite()
 

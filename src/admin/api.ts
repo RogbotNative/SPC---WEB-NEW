@@ -45,8 +45,10 @@ export interface PostDraft {
 
 export const api = {
   session: () => call<SessionInfo>('/api/admin/session'),
-  login: (username: string, password: string) =>
-    call<{ ok: true; expiresAt: string }>('/api/admin/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
+  login: (email: string, password: string) =>
+    call<{ ok: true; expiresAt: string }>('/api/admin/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  changeAccount: (change: { currentPassword: string; email: string; newPassword?: string }) =>
+    call<{ ok: true; email: string; expiresAt: string }>('/api/admin/account', { method: 'PUT', body: JSON.stringify(change) }),
   logout: () => call<{ ok: true }>('/api/admin/logout', { method: 'POST' }),
   content: () => call<SiteContent>('/api/admin/content'),
   saveImages: (images: Record<string, string>) =>

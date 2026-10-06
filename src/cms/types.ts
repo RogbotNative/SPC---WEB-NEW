@@ -63,6 +63,7 @@ export type ActivityType =
   | 'login_failed'
   | 'login_locked'
   | 'logout'
+  | 'credentials_changed'
   | 'photo_replaced'
   | 'photo_reset'
   | 'testimonials_saved'
@@ -84,7 +85,10 @@ export interface ActivityEntry {
 }
 
 export interface SessionInfo {
-  username: string
+  email: string
   expiresAt: string
+  /** Still signing in with the temporary password set up at launch. */
+  usingTemporaryPassword: boolean
+  credentialsChangedAt: string | null
   lastLogin: { at: string; ip: string; userAgent: string } | null
 }

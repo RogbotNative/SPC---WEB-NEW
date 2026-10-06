@@ -1,11 +1,12 @@
 import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react'
 import type { SessionInfo, SiteContent } from '../cms/types'
+import { api } from './api'
 import s from './admin.module.css'
 import { Ctx, type Toast } from './adminContext'
 import { IconAlert, IconCheck } from './components/icons'
 
 export function AdminProvider({
-  session,
+  session: initialSession,
   initialContent,
   signOut,
   children,
@@ -15,7 +16,9 @@ export function AdminProvider({
   signOut: () => Promise<void>
   children: ReactNode
 }) {
+  const [session, setSession] = useState(initialSession)
   const [content, setContent] = useState(initialContent)
+  const refreshSession = useCallback(async () => setSession(await api.session()), [])
   const [toasts, setToasts] = useState<Toast[]>([])
   const nextId = useRef(1)
 
@@ -25,7 +28,10 @@ export function AdminProvider({
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), tone === 'error' ? 8000 : 5000)
   }, [])
 
-  const value = useMemo(() => ({ session, content, setContent, notify, signOut }), [session, content, notify, signOut])
+  const value = useMemo(
+    () => ({ session, refreshSession, content, setContent, notify, signOut }),
+    [session, refreshSession, content, notify, signOut],
+  )
 
   return (
     <Ctx.Provider value={value}>

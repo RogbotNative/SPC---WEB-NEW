@@ -7,6 +7,7 @@ import { createHash, randomBytes } from 'node:crypto'
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { dirname, join, normalize } from 'node:path'
 import { del, get, put } from '@vercel/blob'
+import { serverSecret } from './secrets.js'
 
 const blobEnabled = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN)
 
@@ -30,12 +31,11 @@ function localPath(pathname: string) {
 }
 
 /**
- * Folder for private records (activity log, sign-in attempts). Blob URLs are public, so the folder name is
- * derived from SESSION_SECRET and can't be guessed by anyone who doesn't know the secret.
+ * Folder for private records (sign-in details, activity log, sign-in attempts). Blob URLs are public, so the
+ * folder name is derived from the server secret and can't be guessed by anyone who doesn't know it.
  */
 export function privateDir() {
-  const secret = process.env.SESSION_SECRET ?? 'local-dev'
-  return `private-${createHash('sha256').update(`spc-private:${secret}`).digest('hex').slice(0, 32)}`
+  return `private-${createHash('sha256').update(`spc-private:${serverSecret()}`).digest('hex').slice(0, 32)}`
 }
 
 export async function readJson<T>(pathname: string): Promise<T | null> {

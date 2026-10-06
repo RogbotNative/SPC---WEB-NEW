@@ -19,6 +19,7 @@ import {
   IconShield,
 } from './components/icons'
 import { Spinner } from './components/ui'
+import { useAdmin } from './adminContext'
 import { AdminProvider } from './context'
 import Blog from './pages/Blog'
 import Dashboard from './pages/Dashboard'
@@ -93,7 +94,7 @@ export default function AdminApp() {
       )}
       {phase.name === 'signed-in' && (
         <AdminProvider session={phase.session} initialContent={phase.content} signOut={signOut}>
-          <Shell session={phase.session} onSignOut={signOut} />
+          <Shell onSignOut={signOut} />
         </AdminProvider>
       )}
     </div>
@@ -103,7 +104,7 @@ export default function AdminApp() {
 /* ------------------------------------------------------------------ */
 
 function Login({ notice, setupError, onSignedIn }: { notice?: string; setupError?: string; onSignedIn: () => Promise<void> }) {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [show, setShow] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -111,11 +112,11 @@ function Login({ notice, setupError, onSignedIn }: { notice?: string; setupError
 
   const submit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!username.trim() || !password) return setError('Enter your username and password.')
+    if (!email.trim() || !password) return setError('Enter your email and password.')
     setBusy(true)
     setError('')
     try {
-      await api.login(username.trim(), password)
+      await api.login(email.trim(), password)
       setPassword('')
       await onSignedIn()
     } catch (err) {
@@ -151,15 +152,17 @@ function Login({ notice, setupError, onSignedIn }: { notice?: string; setupError
             </p>
           )}
           <label className={s.field}>
-            <span className={s.label}>Username</span>
+            <span className={s.label}>Email</span>
             <input
               className={s.input}
-              name="username"
+              name="email"
+              type="email"
+              inputMode="email"
               autoComplete="username"
               autoCapitalize="none"
               spellCheck={false}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               autoFocus
             />
           </label>
@@ -202,7 +205,8 @@ const navItems = [
   { to: '/admin/security', label: 'Security', Icon: IconShield },
 ]
 
-function Shell({ session, onSignOut }: { session: SessionInfo; onSignOut: () => Promise<void> }) {
+function Shell({ onSignOut }: { onSignOut: () => Promise<void> }) {
+  const { session } = useAdmin()
   const [menuOpen, setMenuOpen] = useState(false)
   const { pathname } = useLocation()
   const [lastPath, setLastPath] = useState(pathname)
@@ -247,7 +251,7 @@ function Shell({ session, onSignOut }: { session: SessionInfo; onSignOut: () => 
         <div className={s.sideFoot}>
           <div className={s.who}>
             <span className={s.whoLabel}>Signed in as</span>
-            <span className={s.whoName}>{session.username}</span>
+            <span className={s.whoName}>{session.email}</span>
           </div>
           <a href="/" target="_blank" rel="noopener" className={s.sideBtn}>
             <IconExternal />

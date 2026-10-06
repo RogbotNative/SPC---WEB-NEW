@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { ActivityEntry } from '../../cms/types'
 import { photoSlots } from '../../cms/photoSlots'
-import { timeAgo, deviceName, formatUntil } from '../format'
+import { cx, timeAgo, deviceName, formatUntil } from '../format'
 import s from '../admin.module.css'
 import d from './Dashboard.module.css'
 import { api } from '../api'
@@ -59,7 +59,7 @@ export default function Dashboard() {
       <PageHeader
         num="01"
         label="Dashboard"
-        title={`${greeting()}, ${session.username}.`}
+        title={`${greeting()}.`}
         intro="What would you like to update today? Changes you make here appear on the website within about a minute."
         actions={
           <a href="/" target="_blank" rel="noopener" className={s.smallBtn}>
@@ -68,6 +68,19 @@ export default function Dashboard() {
           </a>
         }
       />
+
+      {session.usingTemporaryPassword && (
+        <div className={d.tempWarn} role="alert">
+          <IconShield size={22} />
+          <div>
+            <strong>You’re signed in with the temporary password.</strong> Set your own email and password so only you
+            can get in.
+          </div>
+          <Link to="/admin/security#sign-in" className={cx(s.smallBtn, s.smallPrimary)}>
+            Change it now
+          </Link>
+        </div>
+      )}
 
       <div className={d.actions}>
         {actions.map(({ to, Icon, title, text, stat }, i) => (

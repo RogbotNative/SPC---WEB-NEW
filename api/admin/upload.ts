@@ -22,7 +22,7 @@ const types: { mime: string; ext: string; match: (b: Uint8Array) => boolean }[] 
 
 export const POST = handle(async (request) => {
   assertSameOrigin(request)
-  requireSession(request)
+  await requireSession(request)
   if (Number(request.headers.get('content-length') ?? 0) > MAX_BYTES) return error(413, 'That photo is too large (4 MB maximum).')
   const bytes = new Uint8Array(await request.arrayBuffer())
   if (!bytes.length) return error(400, 'No photo was received.')

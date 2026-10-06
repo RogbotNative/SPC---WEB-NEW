@@ -6,7 +6,7 @@ import { assertSameOrigin, handle, HttpError, json } from '../_lib/http.js'
 export const POST = handle(async (request) => {
   assertSameOrigin(request)
   try {
-    requireSession(request)
+    await requireSession(request)
     await logActivity(request, 'logout', 'Signed out')
   } catch (e) {
     if (!(e instanceof HttpError)) throw e // already signed out: just clear the cookie

@@ -1,19 +1,16 @@
 /**
  * Admin sign-in.
  *
- * Credentials come from environment variables set in Vercel (never from the code or the browser):
- *   ADMIN_USERNAME       the sign-in name
- *   ADMIN_PASSWORD_HASH  scrypt hash from `npm run admin:hash-password` (recommended)
- *     or ADMIN_PASSWORD  the password itself (simpler; Vercel stores env vars encrypted)
- *   SESSION_SECRET       32+ random characters used to sign the session cookie
- *
- * Sessions are a signed, HttpOnly, SameSite=Strict cookie that expires after 8 hours. Changing the password
- * (or SESSION_SECRET) signs out every open session. Five wrong passwords from one address in 15 minutes lock
- * that address out for 15 minutes.
+ * The email and password are managed from the admin panel (see credentials.ts); passwords are stored as
+ * scrypt hashes. Sessions are a signed, HttpOnly, SameSite=Strict cookie that expires after 8 hours, and
+ * changing the email or password signs out every other session. Five wrong passwords from one address in
+ * 15 minutes lock that address out for 15 minutes.
  */
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto'
+import { currentCredentials, type Credentials } from './credentials.js'
 import { HttpError } from './http.js'
 import { verifyPassword } from './password.js'
+import { serverSecret } from './secrets.js'
 import { privateDir, readJson, writeJson } from './storage.js'
 
 export const SESSION_HOURS = 8
@@ -23,42 +20,22 @@ const LOCK_MS = 15 * 60 * 1000
 
 const sha256 = (s: string) => createHash('sha256').update(s).digest()
 const b64url = (b: Buffer | string) => Buffer.from(b).toString('base64url')
-
-interface AdminConfig {
-  username: string
-  secret: string
-  /** Password hash or password — only used for verification and to fingerprint sessions. */
-  passwordMaterial: string
-  hashed: boolean
-}
-
-function config(): AdminConfig {
-  const username = process.env.ADMIN_USERNAME?.trim()
-  const hash = process.env.ADMIN_PASSWORD_HASH?.trim()
-  const plain = process.env.ADMIN_PASSWORD
-  const secret = process.env.SESSION_SECRET ?? ''
-  if (!username || (!hash && !plain) || secret.length < 32) {
-    throw new HttpError(
-      503,
-      'Admin sign-in is not set up yet. Add ADMIN_USERNAME, ADMIN_PASSWORD_HASH (or ADMIN_PASSWORD) and a SESSION_SECRET of at least 32 characters to the environment variables, then redeploy.',
-    )
-  }
-  return { username, secret, passwordMaterial: hash || plain!, hashed: Boolean(hash) }
-}
-
-/** Throws a 503 with setup instructions if the credentials are missing. */
-export const assertConfigured = () => void config()
+const normaliseEmail = (s: string) => s.trim().toLowerCase()
 
 /* ---------------- Passwords ---------------- */
 
-/** Constant-time check of both username and password. */
-export async function checkCredentials(username: string, password: string): Promise<boolean> {
-  const cfg = config()
-  const userOk = timingSafeEqual(sha256(username.trim().toLowerCase()), sha256(cfg.username.toLowerCase()))
-  const passOk = cfg.hashed
-    ? await verifyPassword(password, cfg.passwordMaterial)
-    : timingSafeEqual(sha256(password), sha256(cfg.passwordMaterial))
-  return userOk && passOk
+/** Constant-time check of a password against the current credentials. */
+export async function checkPassword(password: string, creds?: Credentials): Promise<boolean> {
+  const c = creds ?? (await currentCredentials())
+  return c.hashed ? verifyPassword(password, c.password) : timingSafeEqual(sha256(password), sha256(c.password))
+}
+
+/** Checks email and password together; both checks always run so timing doesn't reveal which was wrong. */
+export async function checkCredentials(email: string, password: string): Promise<boolean> {
+  const c = await currentCredentials()
+  const emailOk = timingSafeEqual(sha256(normaliseEmail(email)), sha256(normaliseEmail(c.email)))
+  const passOk = await checkPassword(password, c)
+  return emailOk && passOk
 }
 
 /* ---------------- Sessions ---------------- */
@@ -67,15 +44,14 @@ interface SessionPayload {
   u: string
   iat: number
   exp: number
-  /** Fingerprint of the current credentials: changing the password invalidates old sessions. */
+  /** Fingerprint of the current credentials: changing the email or password invalidates old sessions. */
   fp: string
   n: string
 }
 
-const fingerprint = (cfg: AdminConfig) =>
-  sha256(`${cfg.username}:${cfg.passwordMaterial}`).toString('base64url').slice(0, 22)
+const fingerprint = (c: Credentials) => sha256(`${normaliseEmail(c.email)}:${c.password}`).toString('base64url').slice(0, 22)
 
-const sign = (data: string, secret: string) => createHmac('sha256', secret).update(data).digest('base64url')
+const sign = (data: string) => createHmac('sha256', serverSecret()).update(data).digest('base64url')
 
 const isHttps = (request: Request) =>
   (request.headers.get('x-forwarded-proto') ?? new URL(request.url).protocol.replace(':', '')) === 'https'
@@ -83,18 +59,18 @@ const isHttps = (request: Request) =>
 /** `__Host-` cookies must be Secure; plain http (local development) uses an unprefixed name. */
 const cookieName = (request: Request) => (isHttps(request) ? '__Host-spc_admin' : 'spc_admin')
 
-export function createSessionCookie(request: Request): { cookie: string; expiresAt: string } {
-  const cfg = config()
+export async function createSessionCookie(request: Request): Promise<{ cookie: string; expiresAt: string }> {
+  const c = await currentCredentials()
   const now = Date.now()
   const payload: SessionPayload = {
-    u: cfg.username,
+    u: c.email,
     iat: now,
     exp: now + SESSION_HOURS * 3600 * 1000,
-    fp: fingerprint(cfg),
+    fp: fingerprint(c),
     n: randomBytes(8).toString('base64url'),
   }
   const body = b64url(JSON.stringify(payload))
-  const token = `${body}.${sign(body, cfg.secret)}`
+  const token = `${body}.${sign(body)}`
   const attrs = ['Path=/', 'HttpOnly', 'SameSite=Strict', `Max-Age=${SESSION_HOURS * 3600}`]
   if (isHttps(request)) attrs.push('Secure')
   return { cookie: `${cookieName(request)}=${token}; ${attrs.join('; ')}`, expiresAt: new Date(payload.exp).toISOString() }
@@ -115,14 +91,19 @@ function readCookie(request: Request, name: string): string | null {
   return null
 }
 
+export interface Session {
+  email: string
+  expiresAt: string
+  credentials: Credentials
+}
+
 /** Returns the signed-in session, or throws 401. */
-export function requireSession(request: Request): { username: string; expiresAt: string } {
-  const cfg = config()
+export async function requireSession(request: Request): Promise<Session> {
   const token = readCookie(request, cookieName(request))
   if (!token) throw new HttpError(401, 'Please sign in.')
   const [body, mac] = token.split('.')
   if (!body || !mac) throw new HttpError(401, 'Please sign in.')
-  const expected = Buffer.from(sign(body, cfg.secret))
+  const expected = Buffer.from(sign(body))
   const given = Buffer.from(mac)
   if (expected.length !== given.length || !timingSafeEqual(expected, given)) throw new HttpError(401, 'Please sign in.')
   let payload: SessionPayload
@@ -132,8 +113,9 @@ export function requireSession(request: Request): { username: string; expiresAt:
     throw new HttpError(401, 'Please sign in.')
   }
   if (payload.exp <= Date.now()) throw new HttpError(401, 'Your session has expired. Please sign in again.')
-  if (payload.u !== cfg.username || payload.fp !== fingerprint(cfg)) throw new HttpError(401, 'Please sign in again.')
-  return { username: payload.u, expiresAt: new Date(payload.exp).toISOString() }
+  const c = await currentCredentials()
+  if (payload.fp !== fingerprint(c)) throw new HttpError(401, 'Your sign-in details were changed. Please sign in again.')
+  return { email: c.email, expiresAt: new Date(payload.exp).toISOString(), credentials: c }
 }
 
 /* ---------------- Lockout after repeated failures ---------------- */

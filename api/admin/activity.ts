@@ -4,6 +4,6 @@ import { requireSession } from '../_lib/auth.js'
 import { handle, json } from '../_lib/http.js'
 
 export const GET = handle(async (request) => {
-  requireSession(request)
+  await requireSession(request)
   return json(await readActivity())
 })
