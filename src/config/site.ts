@@ -10,8 +10,8 @@ export const site = {
   url: 'https://www.yourdomain.com', // used for canonical/OG tags
 
   contact: {
-    phoneDisplay: '[+91 00000 00000]',
-    phoneHref: 'tel:+910000000000',
+    phoneDisplay: '+91 99002 00777',
+    phoneHref: 'tel:+919900200777',
     email: '[hello@yourdomain.com]',
     emailHref: 'mailto:hello@yourdomain.com',
     careersEmail: '[careers@yourdomain.com]',
